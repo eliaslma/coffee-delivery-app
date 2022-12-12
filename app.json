@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "coffee-delivery-app",
+    "slug": "coffee-delivery-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
