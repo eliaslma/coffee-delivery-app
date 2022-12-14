@@ -1,3 +1,4 @@
+import { MapPin } from "phosphor-react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 
@@ -16,4 +17,9 @@ export const Title = styled.Text`
     color: ${ ({theme}) => theme.colors.purple_dark};
     font-family: ${({ theme }) => theme.fonts.roboto_regular};
     margin-left: 4px;
+`;
+
+export const Logo = styled(MapPin)`
+    font-size: ${RFValue(22)}px;
+
 `;

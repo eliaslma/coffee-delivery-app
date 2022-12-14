@@ -1,12 +1,11 @@
-import Reac from "react";
-import { Container, Title } from "./styles";
-import { MapPin } from "phosphor-react-native";
+import React from "react";
+import { Container, Title, Logo } from "./styles";
 import theme from "@myApp/global/styles/theme";
 
 export function LocationButton(){
     return (
         <Container activeOpacity={.7}>
-            <MapPin color={theme.colors.purple} weight="fill" size={22}/>
+            <Logo color={theme.colors.purple} weight="fill"/>
             <Title>Maringá, PR</Title>
         </Container>
     )
