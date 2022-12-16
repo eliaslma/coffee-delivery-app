@@ -1,8 +1,9 @@
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native'
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-export const Container = styled.View`
+export const Container = styled(GestureHandlerRootView)`
     flex: 1;
     background-color: ${({theme}) => theme.colors.background};
 `;
@@ -17,7 +18,7 @@ export const LocationWrapper = styled.View`
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 0 24px;
+    padding: 0 18px;
     margin-top: ${getStatusBarHeight() + 28}px;
 `;
 
@@ -26,10 +27,22 @@ export const Logo = styled.Image`
     height: ${RFValue(40)}px;
 `;
 
-export const LoadContainer = styled.View`
+export const CoffeeList = styled.View`
     flex: 1;
-    justify-content: center;
-    align-items: center;
-
 `;
 
+export const ListTitle = styled.Text`
+    width: 100%;
+    font-size: ${RFValue(24)}px;
+    font-family: ${({ theme}) => theme.fonts.baloo_extra};
+    color: ${({ theme }) => theme.colors.subtitle};
+    padding: 0 18px;
+    margin: 8px 0;
+    
+`;
+
+export const Separator = styled.View`
+    height: 1px;
+    background-color: ${({theme}) => theme.colors.separator};;
+    margin: 0 16px;
+`;

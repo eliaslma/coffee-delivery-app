@@ -15,6 +15,7 @@ export default {
         yellow_dark: '#C47F17',
         yellow: '#DBAC2C',
         yellow_light: '#DBAC2C',
+        separator: 'rgba(150, 156, 178, 0.2)'
 
     },
     fonts: {
