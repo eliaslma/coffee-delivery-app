@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { BuyButton } from "../Buttons/BuyButton";
 import { SelectCounter } from "../Buttons/SelectCounter";
+
 import { 
     Container,
     CoffeeImage,
@@ -14,13 +15,18 @@ import {
     Actions,
  } from "./styles";
 
+export function CoffeeCard(  {data, handlePressBuyButton}  ){
 
-
-
-export function CoffeeCard(  {data, buyAction}  ){
-
+    const [quantityCoffee, setQuantityCoffee] = useState(1)
     const price = Number(data.price).toLocaleString('pt-BR',{minimumFractionDigits: 2})
     
+    function handleIncrementQuantity(){
+      setQuantityCoffee(quantityCoffee + 1)
+    }
+
+    function handleDecrementQuantity(){
+        setQuantityCoffee(quantityCoffee - 1)
+    }
 
     return(
         <Container>
@@ -34,8 +40,8 @@ export function CoffeeCard(  {data, buyAction}  ){
                         <Value>{price}</Value>
                     </Price>
                     <Actions>
-                        <SelectCounter/>
-                        <BuyButton onPress={buyAction} data={data}/>
+                        <SelectCounter increment={handleIncrementQuantity} decrement={handleDecrementQuantity} quantity={quantityCoffee} />
+                        <BuyButton handlePress={handlePressBuyButton} data={data} quantity={quantityCoffee}/>
                     </Actions>
                 </Buy>
             </Description>
