@@ -14,7 +14,7 @@ export const Container = styled.View`
 export const CounterButton = styled(BorderlessButton)``;
 
 export const Value = styled.Text`
-    font-size: ${RFValue(20)}px;
+    font-size: ${RFValue(17)}px;
     margin: 0 10px;
 `;
 

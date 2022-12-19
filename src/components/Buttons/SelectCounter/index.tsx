@@ -11,16 +11,16 @@ import {
  } from "./styles";
 
 
-export function SelectCounter(){
+export function SelectCounter({ increment, decrement, quantity }){
 
     return(
         <Container>
-            <CounterButton>
-                <Minus size={RFValue(16)} weight="bold" color={theme.colors.purple}/>
+            <CounterButton onPress={() =>  { if(quantity != 1) {decrement()}}}>
+                <Minus size={RFValue(18)} weight="bold" color={theme.colors.purple}/>
             </CounterButton>
-            <Value>1</Value>
-            <CounterButton>
-                <Plus size={RFValue(16)} weight="bold" color={theme.colors.purple}/>
+            <Value>{quantity}</Value>
+            <CounterButton onPress={() => increment()}>
+                <Plus size={RFValue(18)} weight="bold" color={theme.colors.purple}/>
             </CounterButton>
         </Container>
     )
