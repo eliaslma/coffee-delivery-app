@@ -15,6 +15,8 @@ export default {
         yellow_dark: '#C47F17',
         yellow: '#DBAC2C',
         yellow_light: '#F1E9C9',
+        separator: 'rgba(150, 156, 178, 0.2)'
+
     },
     fonts: {
         roboto_regular: 'Roboto_400Regular',
