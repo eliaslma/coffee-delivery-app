@@ -1,10 +1,12 @@
 import React from 'react';
-import { Home } from '@myApp/screens/Home';
 import { ThemeProvider } from 'styled-components';
 import theme from '@myApp/global/styles/theme';
-import { ActivityIndicator } from 'react-native';
 import { useFonts } from 'expo-font';
 import { Loader } from '@myApp/components/Loader';
+import { AppRoutes } from '@myApp/routes/app.routes';
+
+import 'intl';
+import 'intl/locale-data/jsonp/pt-BR';
 
 import {
   Roboto_400Regular,
@@ -32,7 +34,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Home/>
+      <AppRoutes/>
     </ThemeProvider>
   );
 
