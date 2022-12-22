@@ -5,13 +5,12 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { Trash } from "phosphor-react-native";
 import { Container, Title } from "./style";
 
+export function RemoveButton({data,handlePress,quantity}){
 
-
-export function RemoveButton(){
-
+    const totalPrice = quantity * data.price
 
     return (
-        <Container>
+        <Container onPress={() => handlePress(data.id, totalPrice)}>
             <Trash color={theme.colors.purple} size={RFValue(16)}/>
             <Title>REMOVER</Title>
         </Container>
