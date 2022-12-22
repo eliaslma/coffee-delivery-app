@@ -23,30 +23,45 @@ export const LocationWrapper = styled.View`
     margin-top: ${getStatusBarHeight() + 28}px;
 `;
 
+export const Photo = styled.Image`
+    width: ${RFValue(34)}px;
+    height: ${RFValue(34)}px;
+    border-radius: 6px;
+    margin-left: 12px;
+`;
+
 export const Logo = styled.Image`
     width: ${RFValue(85)}px;
     height: ${RFValue(40)}px;
+`;
+
+export const UserLocation = styled.View`
+    flex-direction: row;
+    align-items: center;
 `;
 
 export const CoffeeList = styled.View`
     flex: 1;
 `;
 
+export const TitleTagsContainer = styled.View`
+    flex-direction: row;
+    align-items: center;
+    border-width: 1px;
+    border-color: ${({theme}) => theme.colors.separator};
+`;
+
 export const ListTitle = styled.Text`
-    width: 100%;
     font-size: ${RFValue(24)}px;
     font-family: ${({ theme}) => theme.fonts.baloo_extra};
     color: ${({ theme }) => theme.colors.subtitle};
-    padding: 0 18px;
-    border-width: 0.5px;
-    border-color: ${({theme}) => theme.colors.separator};
-    
+    padding: 0 16px;
 `;
 
 export const Footer = styled.View.attrs({ 
-    paddingBottom: Platform.OS === 'ios' ? getBottomSpace() : 16
+    paddingBottom: Platform.OS === 'ios' ? getBottomSpace() + 16 : 16
     })`
    width: 100%;
-   border-top-width: 0.5px;
+   border-top-width: 1px;
    border-color: ${({theme}) => theme.colors.separator};
 `

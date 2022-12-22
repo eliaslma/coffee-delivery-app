@@ -1,22 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
+import { FlatList } from "react-native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { getBottomSpace } from "react-native-iphone-x-helper";
+
 import { LocationButton } from "@myApp/components/Buttons/LocationButton";
 import { CoffeeCard } from "@myApp/components/CoffeeCard";
 import { catalog } from "@myApp/utils/catalog";
 import { ViewCartButton } from "@myApp/components/Buttons/ViewCartButton";
-import { FlatList } from "react-native";
-import { getBottomSpace } from "react-native-iphone-x-helper";
+import { PropsStack } from "@myApp/routes/Models";
+import { TagButton } from "@myApp/components/Buttons/TagButton";
 
 import {
     Container,
     Header,
     LocationWrapper,
+    Photo,
     Logo,
+    UserLocation,
     CoffeeList,
+    TitleTagsContainer,
     ListTitle,
     Footer
 } from './styles'
-
-interface CardProps{
+export interface CardProps{
     id: number;
     quantity: number;
     price: number;
@@ -24,10 +30,12 @@ interface CardProps{
     photo: any;
 }
 
+const tags = ["TRADICIONAL" , "ESPECIAL", "COM LEITE","ALCOÓLICO","GELADO"]
 let [totalPrice, totalQuantity] = [0,0]
 
 export function Home(){
-
+    
+    const navigation = useNavigation<PropsStack>();
     const [cartList, setCartList]  = useState<CardProps[]>([]);
     
     function handleAddCart(id, quantity, price, name, photo){
@@ -65,28 +73,52 @@ export function Home(){
         }
     }
 
+    function handleNavCheckout(){
+      navigation.navigate("Checkout", { data: cartList, totalCartPrice: totalPrice });
+    }
+
+    useFocusEffect( useCallback(()=> { 
+        setCartList([])
+        totalQuantity = 0
+        totalPrice = 0
+    },[]));
+
     return(
         <Container>     
             <Header>
                 <LocationWrapper>
-                    <Logo source={require('../../assets/Logo-2.png')}/>
-                    <LocationButton data={cartList}/>
+                    <Logo source={require('../../assets/Logo-2.png')}/>    
+                    <UserLocation>
+                        <LocationButton location={'Maringá, PR'}/>
+                        <Photo source={{ uri: 'https://avatars.githubusercontent.com/u/70176310?v=4'}}/>
+                    </UserLocation>
                 </LocationWrapper>
             </Header>
             <CoffeeList>
-                <ListTitle>Nossos cafés</ListTitle>
+                <TitleTagsContainer>
+                    <ListTitle>Nossos cafés</ListTitle>
+                    <FlatList 
+                        data={tags} 
+                        horizontal={true}
+                        showsHorizontalScrollIndicator={false} 
+                        renderItem={ ({ item }) => 
+                            <TagButton tagname={item}/>
+                        }
+                    />
+                    
+                </TitleTagsContainer>
                 <FlatList
                     data={catalog}
                     contentContainerStyle={ !cartList.length ? 
                         {paddingBottom: getBottomSpace(), paddingTop: 16} : {paddingTop: 16} }
                     showsVerticalScrollIndicator={false}
                     renderItem={ ({ item } ) => 
-                    <CoffeeCard data={item} handlePressBuyButton={handleAddCart}/> }
+                        <CoffeeCard data={item} handlePressBuyButton={handleAddCart}/> }
                 />
                 {cartList.length != 0 && 
-                    <Footer>
-                        <ViewCartButton quantity={totalQuantity} price={totalPrice}/>
-                    </Footer>}
+                <Footer>
+                    <ViewCartButton quantity={totalQuantity} price={totalPrice} handlePress={handleNavCheckout}/>
+                </Footer>}
             </CoffeeList>
         </Container>
     )
