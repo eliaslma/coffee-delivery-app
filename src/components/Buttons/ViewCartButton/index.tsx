@@ -3,12 +3,12 @@ import { Container, CartContainer, Title, Price } from "./styles";
 import { Cart } from "@myApp/components/Cart";
 
 
-export function ViewCartButton( {quantity, price}){
+export function ViewCartButton( {handlePress, quantity, price}){
 
     const totalPrice = Number(price).toLocaleString('pt-BR', {minimumFractionDigits: 2})
 
     return (
-        <Container activeOpacity={.7}>
+        <Container onPress={handlePress} activeOpacity={.7}>
             <CartContainer>
                 <Cart counter={quantity}/>
                 <Title>VER CARRINHO</Title>
