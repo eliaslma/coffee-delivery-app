@@ -20,7 +20,7 @@ export const Description = styled.View`
 `;
 
 export const Infos = styled.View`
-    margin-left: 20px;
+    margin-left: 12px;
 `;
 
 export const Title = styled.Text`
