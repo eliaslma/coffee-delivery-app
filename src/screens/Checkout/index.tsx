@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FlatList } from "react-native";
 import { CoffeeSelected } from "@myApp/components/CoffeeSelected";
 import { CheckoutButton } from "@myApp/components/Buttons/CheckoutButton";
+import { getBottomSpace } from "react-native-iphone-x-helper";
 import { 
     Container, 
     CartList, 
@@ -16,10 +17,12 @@ import {
     TotalPriceItems
 } from "./styles";
 
+
 export function Checkout(){
 
     const route = useRoute();
     const navigate = useNavigation();
+    const bottomSpace = getBottomSpace();
     const [totalCartPrice, setTotalPrice] = useState(route.params['totalCartPrice'])
     const [cartListSelected,setCartListSelected] = useState(route.params['data'])
     const totalCartPriceFormatted = Number(totalCartPrice).toLocaleString('pt-BR',{minimumFractionDigits: 2})
@@ -63,7 +66,7 @@ export function Checkout(){
                     />
                 </CartList>
             </CartListContainer>
-            <Footer>
+            <Footer style={bottomSpace ? {paddingBottom: bottomSpace} : {paddingBottom: 16}}>
                 <TotalPriceContain>
                     <TotalPriceItems>Total de itens</TotalPriceItems>
                     <TotalPriceItems>R$ {totalCartPriceFormatted}</TotalPriceItems>

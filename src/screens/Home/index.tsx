@@ -34,9 +34,10 @@ const tags = ["TRADICIONAL" , "ESPECIAL", "COM LEITE","ALCOÓLICO","GELADO"]
 let [totalPrice, totalQuantity] = [0,0]
 
 export function Home(){
-    
+
     const navigation = useNavigation<PropsStack>();
     const [cartList, setCartList]  = useState<CardProps[]>([]);
+    const bottomSpace = getBottomSpace() // espaço da barra iphone x^
     
     function handleAddCart(id, quantity, price, name, photo){
         const elementAdded = cartList.find(element => element.id === id)
@@ -105,7 +106,6 @@ export function Home(){
                             <TagButton tagname={item}/>
                         }
                     />
-                    
                 </TitleTagsContainer>
                 <FlatList
                     data={catalog}
@@ -116,7 +116,7 @@ export function Home(){
                         <CoffeeCard data={item} handlePressBuyButton={handleAddCart}/> }
                 />
                 {cartList.length != 0 && 
-                <Footer>
+                <Footer style={  bottomSpace ? {paddingBottom: bottomSpace} : {paddingBottom: 16}}>
                     <ViewCartButton quantity={totalQuantity} price={totalPrice} handlePress={handleNavCheckout}/>
                 </Footer>}
             </CoffeeList>

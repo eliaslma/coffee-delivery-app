@@ -1,7 +1,6 @@
-import { getStatusBarHeight, getBottomSpace } from "react-native-iphone-x-helper";
+import { getStatusBarHeight } from "react-native-iphone-x-helper";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
-import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export const Container = styled(GestureHandlerRootView)`
@@ -32,12 +31,10 @@ export const CartList = styled.View`
 export const Separator = styled.View`
     height: 1px;
     background-color: ${({theme}) => theme.colors.button};
-    margin: 12px 24px;
+    margin: 12px 16px;
 `;
 
-export const Footer = styled.View.attrs({
-    paddingBottom: Platform.OS === 'ios' ? getBottomSpace() + 16 : 16
-})`
+export const Footer = styled.View`
     padding-top: 16px;
     background-color: ${({ theme }) => theme.colors.card};
     border-top-width: 1px;

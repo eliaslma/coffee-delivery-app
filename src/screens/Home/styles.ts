@@ -1,8 +1,7 @@
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native'
-import { getBottomSpace, getStatusBarHeight} from 'react-native-iphone-x-helper';
+import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Platform } from 'react-native';
 
 export const Container = styled(GestureHandlerRootView)`
     flex: 1;
@@ -58,9 +57,7 @@ export const ListTitle = styled.Text`
     padding: 0 16px;
 `;
 
-export const Footer = styled.View.attrs({ 
-    paddingBottom: Platform.OS === 'ios' ? getBottomSpace() + 16 : 16
-    })`
+export const Footer = styled.View`
    width: 100%;
    border-top-width: 1px;
    border-color: ${({theme}) => theme.colors.separator};

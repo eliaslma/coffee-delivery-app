@@ -1,7 +1,6 @@
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 
-
 export const Container = styled.View`
     flex-direction: row;
     background-color:${({ theme }) => theme.colors.card};
@@ -13,11 +12,8 @@ export const Container = styled.View`
     align-items: center;
 `;
 
-
 export const Description = styled.View`
-    
     width: 70%;
-    
 `;
 
 export const CoffeeImage = styled.Image`
