@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { Modal } from "react-native";
 import { FlatList } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { getBottomSpace } from "react-native-iphone-x-helper";
@@ -22,6 +23,7 @@ import {
     ListTitle,
     Footer
 } from './styles'
+import { LocationModal } from "@myApp/components/LocationModal";
 export interface CardProps{
     id: number;
     quantity: number;
@@ -37,7 +39,16 @@ export function Home(){
 
     const navigation = useNavigation<PropsStack>();
     const [cartList, setCartList]  = useState<CardProps[]>([]);
+    const [locationModalOpen,setLocationModalOpen] = useState(true);
     const bottomSpace = getBottomSpace() // espaço da barra iphone x^
+    
+    function handleOpenLocationModal(){
+        setLocationModalOpen(true);
+    }
+
+    function handleCloseLocationModal(){
+        setLocationModalOpen(false);
+    }
     
     function handleAddCart(id, quantity, price, name, photo){
         const elementAdded = cartList.find(element => element.id === id)
@@ -85,12 +96,13 @@ export function Home(){
     },[]));
 
     return(
+        <>
         <Container>     
             <Header>
                 <LocationWrapper>
                     <Logo source={require('../../assets/Logo-2.png')}/>    
                     <UserLocation>
-                        <LocationButton location={'Maringá, PR'}/>
+                        <LocationButton location={'Maringá, PR'} handlePress={handleOpenLocationModal}/>
                         <Photo source={{ uri: 'https://avatars.githubusercontent.com/u/70176310?v=4'}}/>
                     </UserLocation>
                 </LocationWrapper>
@@ -121,6 +133,13 @@ export function Home(){
                 </Footer>}
             </CoffeeList>
         </Container>
+
+        <Modal visible={locationModalOpen} transparent={true}>
+            <LocationModal handlePress={handleCloseLocationModal}/>
+        </Modal>
+        
+        </>
+
     )
 }
 
