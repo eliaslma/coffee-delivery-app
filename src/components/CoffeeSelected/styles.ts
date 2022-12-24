@@ -16,7 +16,7 @@ export const CoffeeImage = styled.Image`
 export const Description = styled.View`
     flex-direction: row;
     align-items: center;
-    
+    flex-shrink: 1;
 `;
 
 export const Infos = styled.View`
@@ -39,5 +39,6 @@ export const TotalPrice = styled.Text`
     color: ${({ theme }) => theme.colors.text};
     font-size: ${RFValue(16)}px;
     margin-right: 16px;
+    
 `;
 

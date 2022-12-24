@@ -13,7 +13,8 @@ export const Container = styled.View`
 `;
 
 export const Description = styled.View`
-    width: 70%;
+    flex-shrink: 1;
+    margin-right: 8px;
 `;
 
 export const CoffeeImage = styled.Image`
@@ -32,12 +33,15 @@ export const About = styled.Text`
     color: ${({theme}) => theme.colors.label};
     font-size: ${RFValue(14)}px;
     margin-bottom: 8px;
+    flex-shrink: 1;
+    
 
 `;
 export const Buy = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    margin-right: 8px;
 `;
 
 export const Price = styled.View`
@@ -62,4 +66,5 @@ export const Value = styled.Text`
 export const Actions = styled.View`
     flex-direction: row;
     align-items: center;
+    
 `;
