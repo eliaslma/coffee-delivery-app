@@ -1,8 +1,8 @@
 import styled from 'styled-components/native'
 import { RFValue } from 'react-native-responsive-fontsize';
+import { TextInputMask } from 'react-native-masked-text';
 
-
-export const Container = styled.TextInput`
+export const Container = styled(TextInputMask)`
     width: 100%;
     padding: 16px 18px;
     font-family: ${({theme}) => theme.fonts.roboto_regular};
