@@ -8,7 +8,8 @@ export function LocationButton({ location, handlePress }){
     return (
         <Container activeOpacity={.7} onPress={handlePress}>
             <MapPin size={RFValue(22)} color={theme.colors.purple} weight="fill"/>
-            <Title>{location}</Title>
+            {location && <Title>{location}</Title>}
+            
         </Container>
     )
 }
