@@ -10,6 +10,8 @@ import { catalog } from "@myApp/utils/catalog";
 import { ViewCartButton } from "@myApp/components/Buttons/ViewCartButton";
 import { PropsStack } from "@myApp/routes/Models";
 import { TagButton } from "@myApp/components/Buttons/TagButton";
+import { LocationModal } from "@myApp/components/LocationModal";
+import { MenuButton } from "@myApp/components/Buttons/MenuButton";
 
 import {
     Container,
@@ -23,7 +25,7 @@ import {
     ListTitle,
     Footer
 } from './styles'
-import { LocationModal } from "@myApp/components/LocationModal";
+
 export interface CardProps{
     id: number;
     quantity: number;
@@ -35,14 +37,12 @@ export interface CardProps{
 const tags = ["TRADICIONAL" , "ESPECIAL", "COM LEITE","ALCOÓLICO","GELADO"]
 let [totalPrice, totalQuantity] = [0,0]
 
-export function Home(){
+export function Home(NavigationDrawer){
 
     const navigation = useNavigation<PropsStack>();
     const [cartList, setCartList]  = useState<CardProps[]>([]);
     const [locationModalOpen,setLocationModalOpen] = useState(true);
     const [location, setLocation] = useState('');
-
-    
     
     function handleOpenLocationModal(){
         setLocationModalOpen(true);
@@ -110,6 +110,7 @@ export function Home(){
                     <UserLocation>
                         <LocationButton location={location} handlePress={handleOpenLocationModal}/>
                         <Photo source={{ uri: 'https://avatars.githubusercontent.com/u/70176310?v=4'}}/>
+                        <MenuButton handlePress={NavigationDrawer.navigation}/>
                     </UserLocation>
                 </LocationWrapper>
             </Header>

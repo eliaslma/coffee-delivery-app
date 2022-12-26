@@ -4,7 +4,7 @@ import theme from '@myApp/global/styles/theme';
 import { useFonts } from 'expo-font';
 import { Loader } from '@myApp/components/Loader';
 import { AppRoutes } from '@myApp/routes/app.routes';
-
+import 'react-native-gesture-handler';
 import 'intl';
 import 'intl/locale-data/jsonp/pt-BR';
 
