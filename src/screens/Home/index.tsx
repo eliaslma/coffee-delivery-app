@@ -1,8 +1,9 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Modal } from "react-native";
 import { FlatList } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { getBottomSpace, isIphoneX } from "react-native-iphone-x-helper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { LocationButton } from "@myApp/components/Buttons/LocationButton";
 import { CoffeeCard } from "@myApp/components/CoffeeCard";
@@ -41,8 +42,22 @@ export function Home(NavigationDrawer){
 
     const navigation = useNavigation<PropsStack>();
     const [cartList, setCartList]  = useState<CardProps[]>([]);
-    const [locationModalOpen,setLocationModalOpen] = useState(true);
+    const [locationModalOpen,setLocationModalOpen] = useState(false);
     const [location, setLocation] = useState('');
+
+
+    async function getLocation(){
+        const dataKey = '@coffeedelivery:location'
+        const response = await AsyncStorage.getItem(dataKey)
+        if(response !== null){
+            const dataLocation = JSON.parse(response)
+            const address = `${dataLocation.localidade}, ${dataLocation.uf}`
+            setLocation(address)
+        }
+        else{
+            setLocationModalOpen(true)
+        }
+    }
     
     function handleOpenLocationModal(){
         setLocationModalOpen(true);
@@ -92,10 +107,16 @@ export function Home(NavigationDrawer){
     }
 
     function handleNavCheckout(){
-      navigation.navigate("Checkout", { data: cartList, totalCartPrice: totalPrice });
+        location ? 
+            navigation.navigate("Checkout", { data: cartList, totalCartPrice: totalPrice }) 
+            : setLocationModalOpen(true)
     }
+    
+    useEffect(() => {
+        getLocation()
+    },[]);
 
-    useFocusEffect( useCallback(()=> { 
+    useFocusEffect( useCallback(()=> {
         setCartList([])
         totalQuantity = 0
         totalPrice = 0

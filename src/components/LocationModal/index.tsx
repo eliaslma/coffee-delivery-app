@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { Container, Modal, Header, InfoContainer, Infos, Title, Subtitle, CloseButton } from "./styles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { X } from 'phosphor-react-native'
 import { api } from "@myApp/services/api";
-
 import { FieldError, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 
-import { InputForm } from "../Form/InputForm";
-import { GetLocationButton } from "../Form/GetLocationButton";
+import { Container, Modal, Header, InfoContainer, Infos, Title, Subtitle, CloseButton } from "./styles";
+import { InputForm } from "../LocationForm/InputForm";
+import { GetLocationButton } from "../LocationForm/GetLocationButton";
 
 
 type Error = FieldError;
@@ -36,19 +36,21 @@ export function LocationModal({ handleCloseModal, handleUpdateLocation }){
       async function handleGetLocation(data: FormData){
 
         try{
-            const response = await api.get(`${data.zipcode}/json`)
+            const dataKey = '@coffeedelivery:location';
+            const response = await api.get(`${data.zipcode}/json`);
 
             if(response.data['erro']) { 
-                setErrorResponse({type: 'cep', message: 'CEP Inválido'})
+                setErrorResponse({type: 'cep', message: 'CEP Inválido'});
             }else{
+                await AsyncStorage.setItem(dataKey, JSON.stringify(response.data));
                 const address = `${response.data.localidade}, ${response.data.uf}`
-                handleUpdateLocation(address)
                 handleCloseModal()
-                reset()
+                handleUpdateLocation(address)
             }
 
             }catch(error) {
-                console.error(error);
+                setErrorResponse({type: 'connection', message: `${error}`});
+                reset();
             }
           
     }
@@ -66,7 +68,7 @@ export function LocationModal({ handleCloseModal, handleUpdateLocation }){
                             <X size={24} weight="bold" color="white"/>
                         </CloseButton>
                     </Header>
-                    <InputForm 
+                    <InputForm
                         control={control} 
                         name="zipcode" 
                         placeholder="Digite o CEP" 

@@ -23,10 +23,10 @@ export const LocationWrapper = styled.View`
 `;
 
 export const Photo = styled.Image`
-    width: ${RFValue(34)}px;
-    height: ${RFValue(34)}px;
+    width: ${RFValue(34.5)}px;
+    height: ${RFValue(34.5)}px;
     border-radius: 6px;
-    margin-left: 12px;
+    margin-left: 8px;
 `;
 
 export const Logo = styled.Image`
