@@ -8,26 +8,23 @@ import { createDrawerNavigator } from "@react-navigation/drawer"
 import { CustomDrawer } from "@myApp/components/CustomDrawer"
 import { Coffee, HouseLine } from "phosphor-react-native"
 import { Ordered } from "@myApp/screens/Ordered"
+import { Payment } from "@myApp/screens/Payment"
 
+function SideMenu(){
 
-
-function Root(){
     const Drawer = createDrawerNavigator()
-  
+
     return(
         <Drawer.Navigator
             drawerContent={props => <CustomDrawer {...props}/> }
             initialRouteName="Home" 
-            screenOptions={{ 
+            screenOptions={{
                 headerShown: false,
                 drawerLabelStyle: {marginLeft: -25, fontFamily: 'Baloo2_700Bold', fontSize: 16},
                 drawerActiveBackgroundColor: '#8047F8',
                 drawerActiveTintColor: 'white',
-                
-                
             }} 
-            backBehavior={"initialRoute"}
-        >
+            backBehavior={"initialRoute"}>
             <Drawer.Screen name="Home" component={Home} 
                 options={{ 
                     title: 'Ínicio', 
@@ -39,7 +36,6 @@ function Root(){
                 title: 'Pedidos',
                 drawerIcon: ({color}) => <Coffee size={28} weight="bold" color={color} />,
                 }} />
-            
         </Drawer.Navigator>
     );
 }
@@ -51,8 +47,9 @@ export function AppRoutes(){
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false}}>
-                <Stack.Screen name="Root" component={Root}/>
+                <Stack.Screen name="SideMenu" component={SideMenu}/>
                 <Stack.Screen name="Checkout" component={Checkout}/>
+                <Stack.Screen name="Payment" component={Payment}/>
             </Stack.Navigator>
         </NavigationContainer>
     )
