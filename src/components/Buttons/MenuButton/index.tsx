@@ -9,7 +9,7 @@ export function MenuButton( {handlePress} ){
 
     return (
         <Container activeOpacity={.7} onPress={() => {handlePress.openDrawer()}}>
-            <List size={RFValue(28)} color={theme.colors.purple} weight="bold"/>
+            <List size={RFValue(22)} color={theme.colors.purple} weight="bold"/>
         </Container>
     )
 }

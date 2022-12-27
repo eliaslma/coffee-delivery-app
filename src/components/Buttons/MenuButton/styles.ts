@@ -3,8 +3,8 @@ import styled from "styled-components/native";
 export const Container = styled.TouchableOpacity`
     border-radius: 6px;
     background-color: ${({ theme }) => theme.colors.purple_light};
-    padding: 6px;
+    padding: 8px;
     align-items: center;
     justify-content: center;
-    margin-left: 12px;
+    margin-left: 8px;
 `;
