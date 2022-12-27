@@ -60,7 +60,7 @@ export function LocationModal({ handleCloseModal, handleUpdateLocation }){
                     <Header>
                         <Infos>
                             <Title>Onde você está?</Title>
-                            <Subtitle>Digite um CEP para ter acesso aos produtos e ofertas da sua região.</Subtitle>
+                            <Subtitle>Busque sua localização para ter acesso aos produtos e ofertas da região.</Subtitle>
                         </Infos>
                         <CloseButton onPress={handleCloseModal}>
                             <X size={24} weight="bold" color="white"/>
@@ -69,7 +69,7 @@ export function LocationModal({ handleCloseModal, handleUpdateLocation }){
                     <InputForm 
                         control={control} 
                         name="zipcode" 
-                        placeholder="CEP" 
+                        placeholder="Digite o CEP" 
                         autoCorrect={false} 
                         keyboardType={'numeric'}
                         error={errors.zipcode || errorResponse}

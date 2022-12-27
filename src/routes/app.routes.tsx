@@ -5,13 +5,41 @@ import { Home } from "@myApp/screens/Home"
 import { Checkout } from "@myApp/screens/Checkout"
 import { propsNavigationStack } from "./Models"
 import { createDrawerNavigator } from "@react-navigation/drawer"
+import { CustomDrawer } from "@myApp/components/CustomDrawer"
+import { Coffee, HouseLine } from "phosphor-react-native"
+import { Ordered } from "@myApp/screens/Ordered"
+
 
 
 function Root(){
     const Drawer = createDrawerNavigator()
+  
     return(
-        <Drawer.Navigator initialRouteName="Home" screenOptions={{ headerShown: false}}>
-            <Drawer.Screen name="Home" component={Home}/>
+        <Drawer.Navigator
+            drawerContent={props => <CustomDrawer {...props}/> }
+            initialRouteName="Home" 
+            screenOptions={{ 
+                headerShown: false,
+                drawerLabelStyle: {marginLeft: -25, fontFamily: 'Baloo2_700Bold', fontSize: 16},
+                drawerActiveBackgroundColor: '#8047F8',
+                drawerActiveTintColor: 'white',
+                
+                
+            }} 
+            backBehavior={"initialRoute"}
+        >
+            <Drawer.Screen name="Home" component={Home} 
+                options={{ 
+                    title: 'Ínicio', 
+                    drawerIcon: ({color}) => <HouseLine size={28} weight="bold" color={color} />,
+                    
+                    }}/>
+            <Drawer.Screen name="Ordered" component={Ordered} 
+            options={{ 
+                title: 'Pedidos',
+                drawerIcon: ({color}) => <Coffee size={28} weight="bold" color={color} />,
+                }} />
+            
         </Drawer.Navigator>
     );
 }
@@ -23,7 +51,7 @@ export function AppRoutes(){
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false}}>
-                <Stack.Screen name="Root" component={Root} />
+                <Stack.Screen name="Root" component={Root}/>
                 <Stack.Screen name="Checkout" component={Checkout}/>
             </Stack.Navigator>
         </NavigationContainer>
