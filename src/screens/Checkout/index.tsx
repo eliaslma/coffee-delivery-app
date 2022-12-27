@@ -1,12 +1,13 @@
 import React from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { FlatList } from "react-native";
 import { CoffeeSelected } from "@myApp/components/CoffeeSelected";
 import { CheckoutButton } from "@myApp/components/Buttons/CheckoutButton";
 import { getBottomSpace, isIphoneX } from "react-native-iphone-x-helper";
+import { CaretLeft } from "phosphor-react-native";
 import { 
-    Container, 
+    Container,
+    Header, 
     CartList, 
     ListTitle, 
     CartListContainer, 
@@ -14,21 +15,20 @@ import {
     Footer,
     TotalPriceContain,
     TotalPrice,
-    TotalPriceItems
+    TotalPriceItems,
+    BackButton
 } from "./styles";
 
 
-export function Checkout(){
+export function Checkout({navigation, route}){
 
-    const route = useRoute();
-    const navigate = useNavigation();
     const [totalCartPrice, setTotalPrice] = useState(route.params['totalCartPrice'])
     const [cartListSelected,setCartListSelected] = useState(route.params['data'])
     const totalCartPriceFormatted = Number(totalCartPrice).toLocaleString('pt-BR',{minimumFractionDigits: 2})
         
     function handleRemoveCoffee(id: number, totalPrice: number){
         if(cartListSelected[1] == undefined){
-            navigate.goBack()
+            navigation.goBack()
         }
         else {
             handleDecrementPrice(totalPrice)
@@ -44,9 +44,19 @@ export function Checkout(){
         setTotalPrice(totalCartPrice - price)
     }
 
+    function handleNavPayment(){
+        navigation.navigate('Payment')
+    }
+
+
     return (
         <Container>
-            <ListTitle>Cafés selecionados</ListTitle>
+            <Header>
+                <BackButton onPress={() => navigation.goBack()}>
+                    <CaretLeft size={24} weight="bold"/>
+                </BackButton>
+                <ListTitle>Cafés selecionados</ListTitle>
+            </Header>
             <CartListContainer>
                 <CartList>
                     <FlatList
@@ -78,7 +88,7 @@ export function Checkout(){
                     <TotalPrice>Total</TotalPrice>
                     <TotalPrice>R$ {totalCartPriceFormatted}</TotalPrice>
                 </TotalPriceContain>
-                <CheckoutButton/>
+                <CheckoutButton handlePress={handleNavPayment}/>
             </Footer>
         </Container>
 

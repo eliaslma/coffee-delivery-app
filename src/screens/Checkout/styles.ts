@@ -1,19 +1,25 @@
 import { getStatusBarHeight } from "react-native-iphone-x-helper";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { BorderlessButton, GestureHandlerRootView } from "react-native-gesture-handler";
 
 export const Container = styled(GestureHandlerRootView)`
     flex: 1;
     background-color: ${({ theme }) => theme.colors.background};
 `;
 
+
+export const Header = styled.View`
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    margin-top: ${getStatusBarHeight() + 28}px;
+    padding: 0 8px;
+`;
+
 export const ListTitle = styled.Text`
     font-family: ${({theme}) => theme.fonts.baloo_bold};
     color: ${({theme}) => theme.colors.subtitle};
-    width: 100%;
-    margin-top: ${getStatusBarHeight() + 28}px;
-    padding: 0 18px;
     font-size: ${RFValue(18)}px;
 `;
 
@@ -58,3 +64,5 @@ export const TotalPriceItems = styled.Text`
     font-size: ${RFValue(14)}px;
     color: ${({theme}) => theme.colors.text};
 `;
+
+export const BackButton = styled(BorderlessButton)``;
