@@ -24,8 +24,8 @@ export function InputFormAddress({ control, name, error, ...rest}: Props){
                     <Input
                         style={{ borderColor: `${borderColor}`}}
                         onChangeText={onChange}
-                        value={value}
                         autoCorrect={false}
+                        value={value}
                         selectionColor={theme.colors.label}
                         placeholderTextColor={theme.colors.label}
                         onFocus={() => setBorderColor(theme.colors.yellow_dark)}

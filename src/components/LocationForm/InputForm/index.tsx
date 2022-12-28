@@ -1,4 +1,5 @@
 
+import theme from "@myApp/global/styles/theme";
 import React from "react";
 import { Control, Controller, FieldValues } from "react-hook-form";
 import { TextInputProps } from "react-native";
@@ -20,6 +21,7 @@ export function InputForm({ control, name, error, ...rest}: Props){
                 render={ ({ field: {onChange, value}}) => (
                     <Input
                         type={'zip-code'}
+                        selectionColor={theme.colors.purple}
                         value={value}
                         includeRawValueInChangeText={true}
                         onChangeText={(maskedText, rawText) => {onChange(rawText)}}

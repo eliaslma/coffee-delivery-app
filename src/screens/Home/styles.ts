@@ -6,11 +6,13 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 export const Container = styled(GestureHandlerRootView)`
     flex: 1;
     background-color: ${({theme}) => theme.colors.background};
+    
 `;
 
 export const Header = styled.View`
     width: 100%;
     height: ${RFValue(104)}px;
+    
 `;
 
 export const LocationWrapper = styled.View`
@@ -18,7 +20,7 @@ export const LocationWrapper = styled.View`
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 0 18px;
+    padding: 0 16px;
     margin-top: ${getStatusBarHeight() + 28}px;
 `;
 
@@ -26,11 +28,11 @@ export const Photo = styled.Image`
     width: ${RFValue(34.5)}px;
     height: ${RFValue(34.5)}px;
     border-radius: 6px;
-    margin-left: 8px;
+    margin: 0px 8px;
 `;
 
 export const Logo = styled.Image`
-    width: ${RFValue(85)}px;
+    width: ${RFValue(25)}px;
     height: ${RFValue(40)}px;
 `;
 

@@ -50,8 +50,8 @@ export function Home(NavigationDrawer){
         const dataKey = '@coffeedelivery:location'
         const response = await AsyncStorage.getItem(dataKey)
         if(response !== null){
-            const dataLocation = JSON.parse(response)
-            const address = `${dataLocation.localidade}, ${dataLocation.uf}`
+            const data = JSON.parse(response)
+            const address = `${data.localidade}, ${data.uf}`
             setLocation(address)
         }
         else{
@@ -107,9 +107,7 @@ export function Home(NavigationDrawer){
     }
 
     function handleNavCheckout(){
-        location ? 
-            navigation.navigate("Checkout", { data: cartList, totalCartPrice: totalPrice }) 
-            : setLocationModalOpen(true)
+        navigation.navigate("Checkout", { data: cartList, totalCartPrice: totalPrice })    
     }
     
     useEffect(() => {
@@ -126,13 +124,13 @@ export function Home(NavigationDrawer){
         
         <Container>     
             <Header>
-                <LocationWrapper>
-                    <Logo source={require('../../assets/Logo-2.png')}/>    
+                <LocationWrapper>    
                     <UserLocation>
-                        <LocationButton location={location} handlePress={handleOpenLocationModal}/>
-                        <Photo source={{ uri: 'https://avatars.githubusercontent.com/u/70176310?v=4'}}/>
                         <MenuButton handlePress={NavigationDrawer.navigation}/>
+                        <Photo source={{ uri: 'https://avatars.githubusercontent.com/u/70176310?v=4'}}/>
+                        <LocationButton location={location} handlePress={handleOpenLocationModal}/>
                     </UserLocation>
+                    <Logo source={require('../../assets/Logo-2.png')}/>
                 </LocationWrapper>
             </Header>
             <CoffeeList>
