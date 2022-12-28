@@ -1,8 +1,11 @@
-import styled from "styled-components/native";
-import { GestureHandlerRootView, BorderlessButton } from "react-native-gesture-handler";
+import styled, { css } from "styled-components/native";
+import { GestureHandlerRootView, BorderlessButton, RectButton } from "react-native-gesture-handler";
 import { getStatusBarHeight } from "react-native-iphone-x-helper";
 import { RFValue } from "react-native-responsive-fontsize";
 
+interface SelectPaymentProps {
+    isSelected?: boolean
+  }
 
 export const Container = styled(GestureHandlerRootView)`
     flex: 1;
@@ -34,8 +37,13 @@ export const BackButton = styled(BorderlessButton)``;
 export const AddressWrapper = styled.View`
     flex-direction: row;
     width: 100%;
-    padding: 16px 16px 0px;
+    padding: 8px 16px 0px;
 `;
+
+export const PaymentWrapper = styled.View`
+    flex-direction: row;
+    margin-bottom: 16px;
+`
 export const Infos = styled.View`
     margin-left: 8px;
 `;
@@ -49,5 +57,32 @@ export const SubtitleAddress = styled.Text`
     font-family: ${({theme}) => theme.fonts.roboto_regular};
     color: ${({theme}) => theme.colors.text};
     font-size: ${RFValue(12)}px;
+`;
+
+export const SelectPayment = styled(RectButton)<SelectPaymentProps>`
+ ${({ theme, isSelected }) => css`
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    background-color: ${theme.colors.button};
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 16px;
+    ${isSelected && css`
+        border: 1px solid ${theme.colors.purple};
+        background-color: ${theme.colors.purple_light}
+    `}
+ `}
+
+    
 
 `;
+
+export const SelectPaymentTitle = styled.Text`
+    color: ${({theme}) => theme.colors.text};
+    font-family: ${({ theme }) => theme.fonts.roboto_regular};
+    font-size: ${RFValue(12)}px;
+    margin-left: 12px;
+    
+`;
+
