@@ -68,6 +68,7 @@ export const SelectPayment = styled(RectButton)<SelectPaymentProps>`
     border-radius: 6px;
     padding: 16px;
     margin-bottom: 16px;
+    
     ${isSelected && css`
         border: 1px solid ${theme.colors.purple};
         background-color: ${theme.colors.purple_light}

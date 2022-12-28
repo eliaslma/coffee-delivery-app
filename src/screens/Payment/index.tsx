@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CaretLeft } from "phosphor-react-native";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
@@ -25,6 +26,14 @@ import {
 import theme from "@myApp/global/styles/theme";
 
 
+interface DeliveryAddress {
+    street?: string;
+    number?: number;
+    complement?: string;
+    district?: string;
+    city?: string;
+    uf?: string;
+}
 
 const schema = Yup.object().shape({
     
@@ -33,10 +42,32 @@ const schema = Yup.object().shape({
 export function Payment({navigation}){
 
     const [paymentMethodSelected,setPaymentMethodSelect] = useState('credit')
+    const [deliveryAddress, setDeliveryAddres ] = useState<DeliveryAddress>({})
 
+    async function getDeliveryAddress() {
+
+        const dataKey = '@coffeedelivery:location'
+        const response = await AsyncStorage.getItem(dataKey)
+
+        if(response !== null){
+            let data = JSON.parse(response)
+            setDeliveryAddres({ 
+                street: `${data.logradouro}`,
+                district: `${data.bairro}`,
+                city: `${data.localidade}`,
+                uf: `${data.uf}`,
+                complement: `${data.complemento}`
+            })
+        }
+    }    
+    
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
       });
+
+    useEffect(() => {
+        getDeliveryAddress()
+    },[])
 
     return(
         <Container>
@@ -59,39 +90,40 @@ export function Payment({navigation}){
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <Form>
                         <InputFormAddress control={control}
-                            defaultValue={''} 
-                            name="Street" 
+                            defaultValue={deliveryAddress.street} 
+                            name="street" 
                             placeholder="Rua"
                             error={errors}
-                            autoFocus
+                            autoFocus={deliveryAddress ? false : true}
                         />
                         <InputFormAddress control={control}
                             defaultValue={''} 
-                            name="Number" 
+                            name="number" 
                             placeholder="Número"
                             keyboardType={'numeric'}
                             error={errors}
+                            autoFocus={deliveryAddress ? true : false}
                         />
                         <InputFormAddress control={control}
                             defaultValue={''} 
-                            name="Complement" 
-                            placeholder="Complemento" 
+                            name="complement" 
+                            placeholder="Complemento (Opcional)" 
                             error={errors}
                         />
                         <InputFormAddress control={control}
-                            defaultValue={''} 
+                            defaultValue={deliveryAddress.district} 
                             name="district" 
                             placeholder="Bairro" 
                             error={errors}
                         />
                         <InputFormAddress control={control}
-                            defaultValue={''} 
+                            defaultValue={deliveryAddress.city} 
                             name="city" 
                             placeholder="Cidade" 
                             error={errors}
                         />
                         <InputFormAddress control={control}
-                            defaultValue={''} 
+                            defaultValue={deliveryAddress.uf} 
                             name="estate" 
                             placeholder="UF"
                             error={errors}
