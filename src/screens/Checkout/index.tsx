@@ -36,16 +36,45 @@ export function Checkout({navigation, route}){
         }
     }
 
-    function handleIncrementPrice(price: number){
+    function handleIncreaseAmountCoffee(id: number,price: number){
+
+        const cartListUpdated = cartListSelected.map((coffeCard) => {
+            if(coffeCard.id === id ){
+                return{
+                    ...coffeCard,
+                    quantity: coffeCard.quantity + 1
+                }
+            }
+            return coffeCard;
+        });
+        
+        setCartListSelected(cartListUpdated)
         setTotalPrice(totalCartPrice + price)
     }
 
+    function handleDecreaseAmountCoffee(id: number,price: number){
+
+        const cartListUpdated = cartListSelected.map((coffeCard) => {
+            if(coffeCard.id === id ){
+                return{
+                    ...coffeCard,
+                    quantity: coffeCard.quantity - 1
+                }
+            }
+            return coffeCard;
+        });
+        
+        setCartListSelected(cartListUpdated)
+        setTotalPrice(totalCartPrice - price)
+    }
+
     function handleDecrementPrice(price: number){
+        
         setTotalPrice(totalCartPrice - price)
     }
 
     function handleNavPayment(){
-        navigation.navigate('Payment')
+        navigation.navigate("Payment", { data: cartListSelected, totalCartPrice: totalCartPriceFormatted })   
     }
 
 
@@ -66,8 +95,8 @@ export function Checkout({navigation, route}){
                         <CoffeeSelected 
                             data={item} 
                             handleRemoveCoffee={handleRemoveCoffee} 
-                            handleIncrementPrice={handleIncrementPrice}
-                            handleDecrementPrice={handleDecrementPrice}
+                            handleIncreaseCoffee={handleIncreaseAmountCoffee}
+                            handleDecreaseCoffee={handleDecreaseAmountCoffee}
                         />}
                         ItemSeparatorComponent={ () =>
                             <Separator/>
@@ -88,7 +117,7 @@ export function Checkout({navigation, route}){
                     <TotalPrice>Total</TotalPrice>
                     <TotalPrice>R$ {totalCartPriceFormatted}</TotalPrice>
                 </TotalPriceContain>
-                <CheckoutButton handlePress={handleNavPayment}/>
+                <CheckoutButton name="CONTINUAR" handlePress={handleNavPayment}/>
             </Footer>
         </Container>
 

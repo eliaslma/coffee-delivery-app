@@ -14,19 +14,19 @@ import {
 } from "./styles";
 
 // utilziar useEffect para verificar o valor do useState quantityCoffee e atualizar o total do cart
-export function CoffeeSelected({ data, handleRemoveCoffee, handleIncrementPrice, handleDecrementPrice }){
+export function CoffeeSelected({ data, handleRemoveCoffee, handleIncreaseCoffee, handleDecreaseCoffee }){
 
     const [quantityCoffee, setQuantityCoffee] = useState(data.quantity);
     const totalPrice = data.price * quantityCoffee
     const totalPriceFormatted = Number(totalPrice).toLocaleString('pt-BR',{ minimumFractionDigits: 2})
 
     function handleIncrementQuantity(){
-        handleIncrementPrice(data.price)
+        handleIncreaseCoffee(data.id,data.price)
         setQuantityCoffee(quantityCoffee + 1)
     }
   
     function handleDecrementQuantity(){
-        handleDecrementPrice(data.price)
+        handleDecreaseCoffee(data.id,data.price)
         setQuantityCoffee(quantityCoffee - 1)
     }
 
