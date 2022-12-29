@@ -1,10 +1,10 @@
 import React from "react";
 import { Container, Title } from "./styles";
 
-export function CheckoutButton({handlePress}){
+export function CheckoutButton({handlePress, name}){
     return (
         <Container onPress={handlePress}>
-            <Title>CONTINUAR</Title>
+            <Title>{name}</Title>
         </Container>
     )
 }

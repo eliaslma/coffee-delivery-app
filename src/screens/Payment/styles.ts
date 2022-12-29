@@ -71,12 +71,9 @@ export const SelectPayment = styled(RectButton)<SelectPaymentProps>`
     
     ${isSelected && css`
         border: 1px solid ${theme.colors.purple};
-        background-color: ${theme.colors.purple_light}
+        background-color: ${theme.colors.purple_light};
     `}
  `}
-
-    
-
 `;
 
 export const SelectPaymentTitle = styled.Text`
@@ -85,5 +82,14 @@ export const SelectPaymentTitle = styled.Text`
     font-size: ${RFValue(12)}px;
     margin-left: 12px;
     
+`;
+
+
+export const Footer = styled.View`
+    padding-top: 16px;
+    background-color: ${({ theme }) => theme.colors.card};
+    border-top-width: 1px;
+    border-color: ${({theme}) => theme.colors.separator};
+
 `;
 

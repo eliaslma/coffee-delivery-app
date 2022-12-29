@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { isIphoneX, getBottomSpace } from "react-native-iphone-x-helper";
 import { CaretLeft } from "phosphor-react-native";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
@@ -7,8 +8,9 @@ import { useForm } from 'react-hook-form';
 import { InputFormAddress } from "@myApp/components/AddressForm/InputForm";
 import { ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import { MapPinLine, CurrencyDollar, CreditCard, Bank, Money } from 'phosphor-react-native'
+import theme from "@myApp/global/styles/theme";
 
-
+import { CheckoutButton } from "@myApp/components/Buttons/CheckoutButton";
 import { 
     Container, 
     Header, 
@@ -22,9 +24,8 @@ import {
     SubtitleAddress,
     SelectPayment,
     SelectPaymentTitle,
+    Footer
 }from './styles'
-import theme from "@myApp/global/styles/theme";
-
 
 interface DeliveryAddress {
     street?: string;
@@ -39,7 +40,7 @@ const schema = Yup.object().shape({
     
 });
 
-export function Payment({navigation}){
+export function Payment({navigation, route}){
 
     const [paymentMethodSelected,setPaymentMethodSelect] = useState('credit')
     const [deliveryAddress, setDeliveryAddres ] = useState<DeliveryAddress>({})
@@ -94,7 +95,7 @@ export function Payment({navigation}){
                             name="street" 
                             placeholder="Rua"
                             error={errors}
-                            autoFocus={deliveryAddress ? false : true}
+                            autoFocus
                         />
                         <InputFormAddress control={control}
                             defaultValue={''} 
@@ -102,7 +103,6 @@ export function Payment({navigation}){
                             placeholder="Número"
                             keyboardType={'numeric'}
                             error={errors}
-                            autoFocus={deliveryAddress ? true : false}
                         />
                         <InputFormAddress control={control}
                             defaultValue={''} 
@@ -150,10 +150,12 @@ export function Payment({navigation}){
                             <Money size={16} color={theme.colors.purple}/>
                             <SelectPaymentTitle>DINHEIRO</SelectPaymentTitle>
                         </SelectPayment>
-
                     </Form>
                 </ScrollView>
             </KeyboardAvoidingView>
+            <Footer style={isIphoneX() ? {paddingBottom: getBottomSpace()} : {paddingBottom: 16}}>
+                <CheckoutButton name="CONFIRMAR PEDIDO" handlePress={() => {}}/>
+            </Footer>
         </Container>        
     );
 
