@@ -6,9 +6,13 @@ import { FieldError, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 
-import { Container, Modal, Header, InfoContainer, Infos, Title, Subtitle, CloseButton } from "./styles";
+import theme from "@myApp/global/styles/theme";
+import { ActivityIndicator } from "react-native";
 import { InputForm } from "../LocationForm/InputForm";
 import { GetLocationButton } from "../LocationForm/GetLocationButton";
+import { Container, Modal, Header, InfoContainer, Infos, Title, Subtitle, CloseButton } from "./styles";
+
+
 
 
 type Error = FieldError;
@@ -28,18 +32,21 @@ const schema = Yup.object().shape({
 export function LocationModal({ handleCloseModal, handleUpdateLocation }){
 
     const [errorResponse,setErrorResponse] = useState<Error>();
-    
+    const [loaderActive, setLoaderActive] = useState(false);
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
       });
 
       async function handleGetLocation(data: FormData){
 
+        setLoaderActive(true)
+
         try{
             const dataKey = '@coffeedelivery:location';
             const response = await api.get(`${data.zipcode}/json`);
 
-            if(response.data['erro']) { 
+            if(response.data['erro']) {
+                setLoaderActive(false) 
                 setErrorResponse({type: 'cep', message: 'CEP Inválido'});
             }else{
                 await AsyncStorage.setItem(dataKey, JSON.stringify(response.data));
@@ -49,6 +56,7 @@ export function LocationModal({ handleCloseModal, handleUpdateLocation }){
             }
 
             }catch(error) {
+                setLoaderActive(false)
                 setErrorResponse({type: 'connection', message: `${error}`});
                 reset();
             }
@@ -68,6 +76,7 @@ export function LocationModal({ handleCloseModal, handleUpdateLocation }){
                             <X size={24} weight="bold" color="white"/>
                         </CloseButton>
                     </Header>
+                    {loaderActive ? <ActivityIndicator color={theme.colors.purple} size="large"/> :
                     <InputForm
                         control={control} 
                         name="zipcode" 
@@ -76,6 +85,7 @@ export function LocationModal({ handleCloseModal, handleUpdateLocation }){
                         keyboardType={'numeric'}
                         error={errors.zipcode || errorResponse}
                     />
+                    }
                     <GetLocationButton onPress={handleSubmit(handleGetLocation)}/>
                 </InfoContainer>
             </Modal>
