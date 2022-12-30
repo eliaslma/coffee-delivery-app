@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { InputFormAddress } from "@myApp/components/AddressForm/InputForm";
-import { ScrollView, KeyboardAvoidingView, Platform } from "react-native";
+import { ScrollView, KeyboardAvoidingView, Platform, ActivityIndicator } from "react-native";
 import { MapPinLine, CurrencyDollar, CreditCard, Bank, Money } from 'phosphor-react-native'
 import theme from "@myApp/global/styles/theme";
 
@@ -37,34 +37,49 @@ interface DeliveryAddress {
 }
 
 const schema = Yup.object().shape({
-    
+    street: Yup.string().required(),
+    number: Yup.number(),
+    complement: Yup.string(),
+    district: Yup.string().required(),
+    city: Yup.string().required(),
+    uf: Yup.string().required(),
 });
 
 export function Payment({navigation, route}){
 
     const [paymentMethodSelected,setPaymentMethodSelect] = useState('credit')
-    const [deliveryAddress, setDeliveryAddres ] = useState<DeliveryAddress>({})
+    const [deliveryAddress, setDeliveryAddress ] = useState<DeliveryAddress>({})
+    const [dataRead,setDataRead] = useState(false);
+    const [cartList] = route.params['data']
 
-    async function getDeliveryAddress() {
+    async function getDeliveryAddress(){
 
         const dataKey = '@coffeedelivery:location'
         const response = await AsyncStorage.getItem(dataKey)
 
         if(response !== null){
             let data = JSON.parse(response)
-            setDeliveryAddres({ 
+            setDeliveryAddress({ 
                 street: `${data.logradouro}`,
                 district: `${data.bairro}`,
                 city: `${data.localidade}`,
                 uf: `${data.uf}`,
                 complement: `${data.complemento}`
             })
+            setDataRead(true)
+        }
+        else{
+            setDataRead(true)
         }
     }    
     
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
       });
+
+    async function handleConfirmOrder(data: DeliveryAddress){
+        navigation.navigate("Success")   
+    }
 
     useEffect(() => {
         getDeliveryAddress()
@@ -89,45 +104,55 @@ export function Payment({navigation, route}){
                 style={{flex: 1}}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}>
                 <ScrollView showsVerticalScrollIndicator={false}>
+                
                     <Form>
-                        <InputFormAddress control={control}
-                            defaultValue={deliveryAddress.street} 
-                            name="street" 
-                            placeholder="Rua"
-                            error={errors}
-                            autoFocus
-                        />
-                        <InputFormAddress control={control}
-                            defaultValue={''} 
-                            name="number" 
-                            placeholder="Número"
-                            keyboardType={'numeric'}
-                            error={errors}
-                        />
-                        <InputFormAddress control={control}
-                            defaultValue={''} 
-                            name="complement" 
-                            placeholder="Complemento (Opcional)" 
-                            error={errors}
-                        />
-                        <InputFormAddress control={control}
-                            defaultValue={deliveryAddress.district} 
-                            name="district" 
-                            placeholder="Bairro" 
-                            error={errors}
-                        />
-                        <InputFormAddress control={control}
-                            defaultValue={deliveryAddress.city} 
-                            name="city" 
-                            placeholder="Cidade" 
-                            error={errors}
-                        />
-                        <InputFormAddress control={control}
-                            defaultValue={deliveryAddress.uf} 
-                            name="estate" 
-                            placeholder="UF"
-                            error={errors}
-                        />
+                        {!dataRead ? <ActivityIndicator color={theme.colors.purple} size="small"/> :
+                        <>
+                            <InputFormAddress control={control}
+                                defaultValue={deliveryAddress.street} 
+                                name="street" 
+                                placeholder="Rua"
+                                error={errors.street}
+                                autoFocus
+                            />
+                            <InputFormAddress control={control}
+                                defaultValue={''} 
+                                name="number" 
+                                placeholder="Número"
+                                keyboardType={'numeric'}
+                                maxLength={5}
+                                error={errors.number}
+                            />
+                            <InputFormAddress control={control}
+                                defaultValue={''} 
+                                name="complement" 
+                                placeholder="Complemento (Opcional)" 
+                                error={errors.complement}
+                                maxLength={50}
+                            />
+                            <InputFormAddress control={control}
+                                defaultValue={deliveryAddress.district} 
+                                name="district" 
+                                placeholder="Bairro" 
+                                error={errors.district}
+                                maxLength={50}
+                            />
+                            <InputFormAddress control={control}
+                                defaultValue={deliveryAddress.city} 
+                                name="city" 
+                                placeholder="Cidade" 
+                                error={errors.city}
+                                maxLength={50}
+                            />
+                            <InputFormAddress control={control}
+                                defaultValue={deliveryAddress.uf} 
+                                name="uf" 
+                                placeholder="UF"
+                                error={errors.uf}
+                                maxLength={50}
+                            />
+                        </>
+                    }
                         <PaymentWrapper>
                             <CurrencyDollar size={22} color={theme.colors.purple}/>
                             <Infos>
@@ -154,7 +179,7 @@ export function Payment({navigation, route}){
                 </ScrollView>
             </KeyboardAvoidingView>
             <Footer style={isIphoneX() ? {paddingBottom: getBottomSpace()} : {paddingBottom: 16}}>
-                <CheckoutButton name="CONFIRMAR PEDIDO" handlePress={() => {}}/>
+                <CheckoutButton name="CONFIRMAR PEDIDO" handlePress={handleSubmit(handleConfirmOrder)}/>
             </Footer>
         </Container>        
     );

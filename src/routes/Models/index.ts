@@ -9,7 +9,11 @@ export type propsNavigationStack = {
         totalCartPrice: number,
 
     };
-    Payment: undefined;
+    Payment: {
+        data: CardProps[],
+        totalCartPrice: string,
+    };
+    Success: undefined;
 }
 
 export type PropsStack = NativeStackNavigationProp<propsNavigationStack>

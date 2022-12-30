@@ -29,6 +29,7 @@ export const Photo = styled.Image`
     height: ${RFValue(34.5)}px;
     border-radius: 6px;
     margin: 0px 8px;
+    border: 1px solid ${({ theme}) => theme.colors.purple_light};
 `;
 
 export const Logo = styled.Image`

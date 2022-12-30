@@ -10,5 +10,6 @@ export const Container = styled.TextInput`
     background-color: ${({ theme }) => theme.colors.input} ;
     border-radius: 5px;
     border: 1px solid;
+    margin-bottom: 8px;
     justify-content: space-between;
 `;
