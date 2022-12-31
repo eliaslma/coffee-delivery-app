@@ -27,7 +27,7 @@ import {
     Footer
 }from './styles'
 
-interface DeliveryAddress {
+export interface DeliveryAddress {
     street?: string;
     number?: number;
     complement?: string;
@@ -47,7 +47,7 @@ const schema = Yup.object().shape({
 
 export function Payment({navigation, route}){
 
-    const [paymentMethodSelected,setPaymentMethodSelect] = useState('credit')
+    const [paymentMethodSelected,setPaymentMethodSelect] = useState('Cartão de Crédito')
     const [deliveryAddress, setDeliveryAddress ] = useState<DeliveryAddress>({})
     const [dataRead,setDataRead] = useState(false);
     const [cartList] = route.params['data']
@@ -78,7 +78,7 @@ export function Payment({navigation, route}){
       });
 
     async function handleConfirmOrder(data: DeliveryAddress){
-        navigation.navigate("Success")   
+        navigation.navigate("Success", { data: data, payment: paymentMethodSelected})   
     }
 
     useEffect(() => {
@@ -161,17 +161,17 @@ export function Payment({navigation, route}){
                             </Infos>
                         </PaymentWrapper>
 
-                        <SelectPayment onPress={() => setPaymentMethodSelect('credit')} isSelected={ paymentMethodSelected === 'credit'}>
+                        <SelectPayment onPress={() => setPaymentMethodSelect('Cartão de Crédito')} isSelected={ paymentMethodSelected === 'Cartão de Crédito'}>
                             <CreditCard size={16} color={theme.colors.purple}/>
                             <SelectPaymentTitle>CARTÃO DE CRÉDITO</SelectPaymentTitle>
                         </SelectPayment>
 
-                        <SelectPayment onPress={() => setPaymentMethodSelect('debit')} isSelected={ paymentMethodSelected === 'debit'}>
+                        <SelectPayment onPress={() => setPaymentMethodSelect('Cartão de Débito')} isSelected={ paymentMethodSelected === 'Cartão de Débito'}>
                             <Bank size={16} color={theme.colors.purple}/>
                             <SelectPaymentTitle>CARTÃO DE DÉBITO</SelectPaymentTitle>
                         </SelectPayment>
 
-                        <SelectPayment onPress={() => setPaymentMethodSelect('money')} isSelected={ paymentMethodSelected === 'money'}>
+                        <SelectPayment onPress={() => setPaymentMethodSelect('Dinheiro')} isSelected={ paymentMethodSelected === 'Dinheiro'}>
                             <Money size={16} color={theme.colors.purple}/>
                             <SelectPaymentTitle>DINHEIRO</SelectPaymentTitle>
                         </SelectPayment>

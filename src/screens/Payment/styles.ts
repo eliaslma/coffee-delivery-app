@@ -37,7 +37,7 @@ export const BackButton = styled(BorderlessButton)``;
 export const AddressWrapper = styled.View`
     flex-direction: row;
     width: 100%;
-    padding: 8px 16px 0px;
+    padding: 16px 16px 0px;
 `;
 
 export const PaymentWrapper = styled.View`
@@ -70,7 +70,7 @@ export const SelectPayment = styled(RectButton)<SelectPaymentProps>`
     background-color: ${theme.colors.button};
     border-radius: 6px;
     padding: 16px;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     
     ${isSelected && css`
         border: 1px solid ${theme.colors.purple};
