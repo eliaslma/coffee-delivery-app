@@ -9,6 +9,8 @@ import { CustomDrawer } from "@myApp/components/CustomDrawer"
 import { Coffee, HouseLine } from "phosphor-react-native"
 import { Ordered } from "@myApp/screens/Ordered"
 import { Payment } from "@myApp/screens/Payment"
+import { Success } from "@myApp/screens/Success"
+
 
 function SideMenu(){
 
@@ -50,6 +52,7 @@ export function AppRoutes(){
                 <Stack.Screen name="SideMenu" component={SideMenu}/>
                 <Stack.Screen name="Checkout" component={Checkout}/>
                 <Stack.Screen name="Payment" component={Payment}/>
+                <Stack.Screen name="Success" component={Success} options={{ gestureEnabled: false}}/>
             </Stack.Navigator>
         </NavigationContainer>
     )
