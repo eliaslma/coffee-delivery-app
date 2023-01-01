@@ -30,14 +30,13 @@ function SideMenu(){
             <Drawer.Screen name="Home" component={Home} 
                 options={{ 
                     title: 'Ínicio', 
-                    drawerIcon: ({color}) => <HouseLine size={28} weight="bold" color={color} />,
-                    
-                    }}/>
-            <Drawer.Screen name="Ordered" component={Ordered} 
-            options={{ 
-                title: 'Pedidos',
-                drawerIcon: ({color}) => <Coffee size={28} weight="bold" color={color} />,
-                }} />
+                    drawerIcon: ({color}) => <HouseLine size={28} weight="bold" color={color} />,    
+                }}/>
+            <Drawer.Screen name="Ordered" component={Ordered}
+                options={{ 
+                    title: 'Pedidos',
+                    drawerIcon: ({color}) => <Coffee size={28} weight="bold" color={color} />,
+                }}/>
         </Drawer.Navigator>
     );
 }
@@ -48,7 +47,7 @@ export function AppRoutes(){
 
     return (
         <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false}}>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="SideMenu" component={SideMenu}/>
                 <Stack.Screen name="Checkout" component={Checkout}/>
                 <Stack.Screen name="Payment" component={Payment}/>

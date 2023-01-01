@@ -25,7 +25,7 @@ export function Checkout({navigation, route}){
     const [totalCartPrice, setTotalPrice] = useState(route.params['totalCartPrice'])
     const [cartListSelected,setCartListSelected] = useState(route.params['data'])
     const totalCartPriceFormatted = Number(totalCartPrice).toLocaleString('pt-BR',{minimumFractionDigits: 2})
-        
+    
     function handleRemoveCoffee(id: number, totalPrice: number){
         if(cartListSelected[1] == undefined){
             navigation.goBack()

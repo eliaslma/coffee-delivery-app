@@ -5,11 +5,12 @@ import { CaretLeft } from "phosphor-react-native";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
-import { InputFormAddress } from "@myApp/components/AddressForm/InputForm";
-import { ScrollView, KeyboardAvoidingView, Platform, ActivityIndicator } from "react-native";
+import { ScrollView, KeyboardAvoidingView, Platform, ActivityIndicator, Alert } from "react-native";
 import { MapPinLine, CurrencyDollar, CreditCard, Bank, Money } from 'phosphor-react-native'
-import theme from "@myApp/global/styles/theme";
+import uuid from 'react-native-uuid';
 
+import theme from "@myApp/global/styles/theme";
+import { InputFormAddress } from "@myApp/components/AddressForm/InputForm";
 import { CheckoutButton } from "@myApp/components/Buttons/CheckoutButton";
 import { 
     Container, 
@@ -29,7 +30,7 @@ import {
 
 export interface DeliveryAddress {
     street?: string;
-    number?: number;
+    number?: string;
     complement?: string;
     district?: string;
     city?: string;
@@ -38,7 +39,7 @@ export interface DeliveryAddress {
 
 const schema = Yup.object().shape({
     street: Yup.string().required(),
-    number: Yup.number(),
+    number: Yup.string().required(),
     complement: Yup.string(),
     district: Yup.string().required(),
     city: Yup.string().required(),
@@ -50,7 +51,7 @@ export function Payment({navigation, route}){
     const [paymentMethodSelected,setPaymentMethodSelect] = useState('Cartão de Crédito')
     const [deliveryAddress, setDeliveryAddress ] = useState<DeliveryAddress>({})
     const [dataRead,setDataRead] = useState(false);
-    const [cartList] = route.params['data']
+    const coffeeList = route.params['data']
 
     async function getDeliveryAddress(){
 
@@ -61,10 +62,10 @@ export function Payment({navigation, route}){
             let data = JSON.parse(response)
             setDeliveryAddress({ 
                 street: `${data.logradouro}`,
+                complement: `${data.complemento}`,
                 district: `${data.bairro}`,
                 city: `${data.localidade}`,
-                uf: `${data.uf}`,
-                complement: `${data.complemento}`
+                uf: `${data.uf}`
             })
             setDataRead(true)
         }
@@ -75,10 +76,40 @@ export function Payment({navigation, route}){
     
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
-      });
+    });
 
     async function handleConfirmOrder(data: DeliveryAddress){
-        navigation.navigate("Success", { data: data, payment: paymentMethodSelected})   
+
+        const ordered = {
+            id: uuid.v4(),
+            street: data.street,
+            number: data.number,
+            complement: data.complement,
+            district: data.district,
+            city: data.city,
+            uf: data.uf,
+            coffeelist: coffeeList,
+            typePayment: paymentMethodSelected,
+            date: new Date()
+        }
+        
+        try{
+            const dataKey = '@coffeedelivery:ordereds'
+            const response = await AsyncStorage.getItem(dataKey);
+            const readData = response ? JSON.parse(response) : [];
+
+            const dataFormatted = [
+                ...readData,
+                ordered
+            ]
+
+            await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted))
+            navigation.navigate("Success", { data: data, payment: paymentMethodSelected})
+
+        }catch(error){
+            console.log(error)
+            Alert.alert('Não foi possível concluir o pedido.')
+        }
     }
 
     useEffect(() => {
