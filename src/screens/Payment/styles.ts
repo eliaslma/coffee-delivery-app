@@ -86,7 +86,7 @@ export const SelectPaymentTitle = styled.Text`
     margin-left: 12px;
 `;
 
-export const Footer = styled.View`
+export const Footer = styled(GestureHandlerRootView)`
     padding-top: 16px;
     background-color: ${({ theme }) => theme.colors.card};
     border-top-width: 1px;

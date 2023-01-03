@@ -6,13 +6,11 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 export const Container = styled(GestureHandlerRootView)`
     flex: 1;
     background-color: ${({theme}) => theme.colors.background};
-    
 `;
 
 export const Header = styled.View`
     width: 100%;
     height: ${RFValue(104)}px;
-    
 `;
 
 export const LocationWrapper = styled.View`

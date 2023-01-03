@@ -52,7 +52,8 @@ export function Payment({navigation, route}){
     const [deliveryAddress, setDeliveryAddress ] = useState<DeliveryAddress>({})
     const [dataRead,setDataRead] = useState(false);
     const coffeeList = route.params['data']
-
+    const totalCartPrice = route.params['totalCartPrice']
+    
     async function getDeliveryAddress(){
 
         const dataKey = '@coffeedelivery:location'
@@ -80,6 +81,8 @@ export function Payment({navigation, route}){
 
     async function handleConfirmOrder(data: DeliveryAddress){
 
+        navigation.navigate("Success", { data: data, payment: paymentMethodSelected})
+
         const ordered = {
             id: uuid.v4(),
             street: data.street,
@@ -90,6 +93,7 @@ export function Payment({navigation, route}){
             uf: data.uf,
             coffeelist: coffeeList,
             typePayment: paymentMethodSelected,
+            totalCartPrice: totalCartPrice,
             date: new Date()
         }
         
@@ -104,7 +108,7 @@ export function Payment({navigation, route}){
             ]
 
             await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted))
-            navigation.navigate("Success", { data: data, payment: paymentMethodSelected})
+            
 
         }catch(error){
             console.log(error)

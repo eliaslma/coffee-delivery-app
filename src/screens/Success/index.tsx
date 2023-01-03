@@ -1,9 +1,10 @@
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import Lootie from 'lottie-react-native';
+import Lottie from 'lottie-react-native';
 import { MapPin, Timer, CurrencyDollar } from "phosphor-react-native";
 import theme from "@myApp/global/styles/theme";
 import { isIphoneX, getBottomSpace } from "react-native-iphone-x-helper";
+import { Platform } from "react-native";
 
 
 import { CheckoutButton } from "@myApp/components/Buttons/CheckoutButton";
@@ -36,11 +37,9 @@ export function Success({navigation, route}){
     return(
         <Container>
             <AnimationContainer>
-                <Lootie autoPlay style={{ width: 492, height: 293}} loop source={require('../../assets/Bike.json')}/>
+            {Platform.OS === 'ios' && <Lottie autoPlay loop style={{ width: 492, height: 293}} source={require('../../assets/Bike.json')}/>}
             </AnimationContainer>
-            
                 <OrderContainer>
-
                     <Title>Uhu! Pedido confirmado!</Title>
                     <Subtitle>Agora é só aguardar que {'\n'}logo o café chegará até você</Subtitle>
                     <LinearGradient start={[0, 0.5]}

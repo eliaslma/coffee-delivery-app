@@ -5,7 +5,7 @@ export const catalog = [
         name: "Expresso Tradicional",
         description: "O tradicional café feito com água quente e grãos moídos",
         photo: require('../assets/tradicional.png'),
-        price: 9.90,
+        price: 9.9,
       },
       {
         id: 2,

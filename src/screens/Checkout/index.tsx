@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { FlatList } from "react-native";
 import { CoffeeSelected } from "@myApp/components/CoffeeSelected";
@@ -38,14 +38,15 @@ export function Checkout({navigation, route}){
 
     function handleIncreaseAmountCoffee(id: number,price: number){
 
-        const cartListUpdated = cartListSelected.map((coffeCard) => {
-            if(coffeCard.id === id ){
+        const cartListUpdated = cartListSelected.map((coffeeCard) => {
+            if(coffeeCard.id === id ){
                 return{
-                    ...coffeCard,
-                    quantity: coffeCard.quantity + 1
+                    ...coffeeCard,
+                    quantity: coffeeCard.quantity + 1,
+                    totalPrice: (coffeeCard.quantity + 1) * coffeeCard.price
                 }
             }
-            return coffeCard;
+            return coffeeCard;
         });
         
         setCartListSelected(cartListUpdated)
@@ -54,14 +55,16 @@ export function Checkout({navigation, route}){
 
     function handleDecreaseAmountCoffee(id: number,price: number){
 
-        const cartListUpdated = cartListSelected.map((coffeCard) => {
-            if(coffeCard.id === id ){
+        const cartListUpdated = cartListSelected.map((coffeeCard) => {
+            if(coffeeCard.id === id ){
                 return{
-                    ...coffeCard,
-                    quantity: coffeCard.quantity - 1
+                    ...coffeeCard,
+                    quantity: coffeeCard.quantity - 1,
+                    totalPrice: (coffeeCard.quantity - 1) * coffeeCard.price
+                    
                 }
             }
-            return coffeCard;
+            return coffeeCard;
         });
         
         setCartListSelected(cartListUpdated)
@@ -69,13 +72,29 @@ export function Checkout({navigation, route}){
     }
 
     function handleDecrementPrice(price: number){
-        
         setTotalPrice(totalCartPrice - price)
+    }
+
+    function updateTotalCoffeePrice(){
+        const updatedTotalCoffeePrice = cartListSelected.map((coffeeCard) => {
+            
+            return{
+                ...coffeeCard,
+                totalPrice: coffeeCard.quantity * coffeeCard.price
+            }
+        
+        return coffeeCard
+        });
+        setCartListSelected(updatedTotalCoffeePrice)
     }
 
     function handleNavPayment(){
         navigation.navigate("Payment", { data: cartListSelected, totalCartPrice: totalCartPriceFormatted })   
     }
+
+    useEffect(() => {
+        updateTotalCoffeePrice()
+    },[]);
 
 
     return (
