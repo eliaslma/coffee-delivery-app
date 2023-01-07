@@ -21,6 +21,7 @@ export default {
     },
     fonts: {
         roboto_regular: 'Roboto_400Regular',
+        roboto_medium: 'Roboto_500Medium',
         roboto_bold: 'Roboto_700Bold',
         baloo_regular: 'Baloo2_400Regular',
         baloo_bold: 'Baloo2_700Bold',
