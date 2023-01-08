@@ -4,13 +4,14 @@ import styled from "styled-components/native";
 
 export const Container = styled(GestureHandlerRootView)`
     flex: 1;
+    background-color: ${({ theme }) => theme.colors.purple_light};
 `;
 
 export const Header = styled.View`
     width: 100%;
     height: 70%;
     justify-content: flex-end;
-    background-color: ${({ theme }) => theme.colors.purple_light};
+    margin-top: 28px;
 `
 
 export const TitleWrapper = styled.View`
