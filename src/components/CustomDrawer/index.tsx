@@ -15,16 +15,20 @@ import {
     Icon, 
     OutTitle 
 } from './styles';
+import { useAuth } from '@myApp/hooks/auth';
 
 export function CustomDrawer(props) {
+
+    const { user, signOut } = useAuth()
+
     return (
             <Container>
                 <Header>
                     <UserWrapper>
-                        <Photo source={{ uri: 'https://avatars.githubusercontent.com/u/70176310?v=4'}}/>
+                        <Photo source={{ uri: user.picture}}/>
                         <User>
                             <UserGreeting>Olá,</UserGreeting>
-                            <UserName>Elias</UserName>
+                            <UserName>{user.name}</UserName>
                         </User>
                     </UserWrapper>
                 </Header>
@@ -34,7 +38,7 @@ export function CustomDrawer(props) {
                     </View>
                 </DrawerContentScrollView>
                 <SignOutWrapper style={ isIphoneX ? { paddingBottom: getStatusBarHeight()} : {paddingBottom: 16}}>
-                    <Icon>
+                    <Icon onPress={signOut}>
                         <SignOut size={28} weight="bold" color={'#8047F8'}/>
                         <OutTitle>Sair</OutTitle>
                     </Icon>

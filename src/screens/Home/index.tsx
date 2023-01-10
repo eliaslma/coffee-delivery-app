@@ -5,6 +5,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { getBottomSpace, isIphoneX } from "react-native-iphone-x-helper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { useAuth } from "@myApp/hooks/auth";
 import { LocationButton } from "@myApp/components/Buttons/LocationButton";
 import { CoffeeCard } from "@myApp/components/CoffeeCard";
 import { catalog } from "@myApp/utils/catalog";
@@ -27,6 +28,8 @@ import {
     Footer
 } from './styles'
 
+
+
 export interface CardProps{
     id: number;
     quantity: number;
@@ -40,11 +43,11 @@ let [totalPrice, totalQuantity] = [0,0]
 
 export function Home(NavigationDrawer){
 
+    const {user} = useAuth();
     const navigation = useNavigation<PropsStack>();
     const [cartList, setCartList]  = useState<CardProps[]>([]);
     const [locationModalOpen,setLocationModalOpen] = useState(false);
     const [location, setLocation] = useState('');
-
 
     async function getLocation(){
         const dataKey = '@coffeedelivery:location'
@@ -127,7 +130,7 @@ export function Home(NavigationDrawer){
                 <LocationWrapper>    
                     <UserLocation>
                         <MenuButton handlePress={NavigationDrawer.navigation}/>
-                        <Photo source={{ uri: 'https://avatars.githubusercontent.com/u/70176310?v=4'}}/>
+                        <Photo source={{ uri: user.picture}}/>
                         <LocationButton location={location} handlePress={handleOpenLocationModal}/>
                     </UserLocation>
                     <Logo source={require('../../assets/Logo-2.png')}/>
