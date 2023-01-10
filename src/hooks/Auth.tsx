@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useContext, useState } from "react";
+import React, { createContext, ReactNode, useContext, useState, useEffect } from "react";
 import * as AuthSession from 'expo-auth-session';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -17,8 +17,9 @@ interface User {
 
 interface AuthContextProps{
     user: User;
-    SignInWithGoogle(): Promise<void>;
-    SignInWithApple(): Promise<void>;
+    signInWithGoogle(): Promise<void>;
+    signInWithApple(): Promise<void>;
+    signOut(): Promise<void>;
 }
 
 type AuthResponseData = {
@@ -33,10 +34,11 @@ const AuthContext = createContext({} as AuthContextProps)
 function AuthProvider({ children } : AuthProviderProps){
 
     const [userInfos, setUserInfos] = useState<User>({} as User)
+    const userStorageKey = '@gofinances:user'
 
-    async function SignInWithGoogle(){
+    async function signInWithGoogle(){
         try { 
-            const CLIEND_ID = "";
+            const CLIEND_ID = "643802899002-9omlsgi8302tu2muk51a2rd71i71848f.apps.googleusercontent.com";
             const REDIRECT_URI = "https://auth.expo.io/@eliaslma/coffee-delivery-app";
             const SCOPE = encodeURI("profile email");
             const RESPONSE_TYPE = "token";
@@ -54,7 +56,7 @@ function AuthProvider({ children } : AuthProviderProps){
                         email: response.data.email,
                         picture: response.data.picture,
                     }
-                    await AsyncStorage.setItem('@gofinances:user',JSON.stringify(userLogged))
+                    await AsyncStorage.setItem(userStorageKey,JSON.stringify(userLogged))
                     setUserInfos(userLogged)
                 }
             }
@@ -65,7 +67,7 @@ function AuthProvider({ children } : AuthProviderProps){
     
     }
 
-    async function SignInWithApple(){
+    async function signInWithApple(){
         try {
             const credential = await AppleAuthentication.signInAsync({
               requestedScopes: [
@@ -81,7 +83,7 @@ function AuthProvider({ children } : AuthProviderProps){
                     email: credential.email,
                 }
                 console.log('Sign Apple...',userLogged)
-                await AsyncStorage.setItem('@gofinances:user',JSON.stringify(userLogged))
+                await AsyncStorage.setItem(userStorageKey,JSON.stringify(userLogged))
                 setUserInfos(userLogged)
             }
             // signed in
@@ -90,12 +92,31 @@ function AuthProvider({ children } : AuthProviderProps){
           }
     }
 
+    async function getUserData(){
+        const userData = await AsyncStorage.getItem(userStorageKey)
+        if(userData){
+            const userDataFormatted = JSON.parse(userData) as User
+            setUserInfos(userDataFormatted)
+        }
+    }
+
+    async function signOut(){
+        setUserInfos({} as User)
+        await AsyncStorage.removeItem(userStorageKey)
+    }
+
+    useEffect(() => {
+        getUserData()
+    },[])
+
+
     return(
         <AuthContext.Provider 
             value={{
                 user: userInfos,
-                SignInWithGoogle,
-                SignInWithApple
+                signInWithGoogle,
+                signInWithApple,
+                signOut,
         }}>
             {children}
         </AuthContext.Provider>
