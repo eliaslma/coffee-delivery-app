@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useContext, useState, useEffect } from "react";
-import * as AuthSession from 'expo-auth-session';
+import * as Google from 'expo-auth-session/providers/google';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
@@ -23,16 +23,15 @@ interface AuthContextProps{
     userStorageLoading: boolean;
 }
 
-type AuthResponseData = {
-    params:{
-        access_token: string;
-    }
-    type: string;
-}
-
 const AuthContext = createContext({} as AuthContextProps)
 
 function AuthProvider({ children } : AuthProviderProps){
+
+    const [ request, response, promptAsync ] = Google.useAuthRequest({
+        expoClientId: '643802899002-9omlsgi8302tu2muk51a2rd71i71848f.apps.googleusercontent.com',
+        iosClientId: '643802899002-e114h7epcdn7mssfu7quai9q6tjufs3i.apps.googleusercontent.com',
+        androidClientId: '643802899002-5qd9j00n2166batn0q0ssiiu3bhspmm2.apps.googleusercontent.com',
+    });
 
     const [userInfos, setUserInfos] = useState<User>({} as User)
     const [userStorageLoading,setUserStorageLoading] = useState(true);
@@ -40,29 +39,7 @@ function AuthProvider({ children } : AuthProviderProps){
 
     async function signInWithGoogle(){
         try { 
-            const CLIEND_ID = "643802899002-9omlsgi8302tu2muk51a2rd71i71848f.apps.googleusercontent.com";
-            const REDIRECT_URI = "https://auth.expo.io/@eliaslma/coffee-delivery-app";
-            const SCOPE = encodeURI("profile email");
-            const RESPONSE_TYPE = "token";
-            const authUrl = 
-            `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIEND_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
-
-            const {type, params} = await AuthSession.startAsync({authUrl}) as AuthResponseData;
-            
-            if(type === 'success'){
-                const response = await axios(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`)
-                if(response){
-                    const userLogged: User = {
-                        id: response.data.id,
-                        name: response.data.name,
-                        email: response.data.email,
-                        picture: response.data.picture,
-                    }
-                    await AsyncStorage.setItem(userStorageKey,JSON.stringify(userLogged))
-                    setUserInfos(userLogged)
-                }
-            }
-
+            await promptAsync({useProxy: true, showInRecents: true});
         }catch(error){
             throw Error(error)
         }
@@ -94,13 +71,27 @@ function AuthProvider({ children } : AuthProviderProps){
           }
     }
 
-    async function getUserData(){
+    async function getUserData({authentication}){
+
+        const response = await axios(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${authentication.accessToken}`)
+        const userLogged: User = {
+            id: response.data.id,
+            name: response.data.name,
+            email: response.data.email,
+            picture: response.data.picture,
+        }
+        setUserInfos(userLogged)
+        await AsyncStorage.setItem(userStorageKey,JSON.stringify(userLogged))
+    }
+
+    async function getUserDataStorage(){
         const userData = await AsyncStorage.getItem(userStorageKey)
         if(userData){
             const userDataFormatted = JSON.parse(userData) as User
             setUserInfos(userDataFormatted)
         }
         setUserStorageLoading(false)
+        
     }
 
     async function signOut(){
@@ -109,8 +100,14 @@ function AuthProvider({ children } : AuthProviderProps){
     }
 
     useEffect(() => {
-        getUserData()
+        getUserDataStorage()
     },[])
+
+    useEffect(() => {
+        if(response?.type === 'success'){
+            getUserData(response)
+        }
+    },[response])
 
 
     return(

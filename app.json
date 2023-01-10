@@ -8,10 +8,10 @@
       "**/*"
     ],
     "android": {
-      "package": "com.coffeedelivery"
+      "package": "com.coffeedeliveryapp"
     },
     "ios": {
-      "bundleIdentifier": "com.coffeedelivery"
+      "bundleIdentifier": "com.coffeedeliveryapp"
     },
     "extra": {
       "eas": {
