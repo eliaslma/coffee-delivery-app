@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { Modal } from "react-native";
 import { FlatList } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { getBottomSpace, isIphoneX } from "react-native-iphone-x-helper";
+import { getBottomSpace, getStatusBarHeight, isIphoneX } from "react-native-iphone-x-helper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useAuth } from "@myApp/hooks/auth";
@@ -127,7 +127,7 @@ export function Home(NavigationDrawer){
         
         <Container>     
             <Header>
-                <LocationWrapper>    
+                <LocationWrapper style={ isIphoneX() && {marginTop: getStatusBarHeight()}}>    
                     <UserLocation>
                         <MenuButton handlePress={NavigationDrawer.navigation}/>
                         <Photo source={{ uri: user.picture}}/>

@@ -6,7 +6,7 @@ import { CaretLeft } from "phosphor-react-native";
 import { OrderCard } from "@myApp/components/OrderCard";
 import { Container, Header, Title, BackButton, CardsContain } from "./styles";
 import { useFocusEffect } from "@react-navigation/native";
-import { getBottomSpace, isIphoneX } from "react-native-iphone-x-helper";
+import { getBottomSpace, isIphoneX, getStatusBarHeight } from "react-native-iphone-x-helper";
 
 export function Ordered({navigation}){
 
@@ -29,7 +29,7 @@ export function Ordered({navigation}){
 
     return (
         <Container>
-            <Header>
+            <Header style={ isIphoneX() ? {marginTop: getStatusBarHeight() + 16} : { marginTop: 16}}>
                 <BackButton onPress={() => {navigation.goBack()}}>
                     <CaretLeft size={24} weight="bold"/>
                 </BackButton>

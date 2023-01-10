@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { isIphoneX, getBottomSpace } from "react-native-iphone-x-helper";
+import { isIphoneX, getBottomSpace, getStatusBarHeight } from "react-native-iphone-x-helper";
 import { CaretLeft } from "phosphor-react-native";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
@@ -122,7 +122,7 @@ export function Payment({navigation, route}){
 
     return(
         <Container>
-            <Header>
+            <Header style={ isIphoneX() ? {marginTop: getStatusBarHeight() + 16} : { marginTop: 16}}>
                 <BackButton onPress={() => navigation.goBack()}>
                     <CaretLeft size={24} weight="bold"/>
                 </BackButton>

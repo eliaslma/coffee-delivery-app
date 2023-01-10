@@ -13,8 +13,7 @@ export const Header = styled.View`
     flex-direction: row;
     align-items: center;
     width: 100%;
-    margin-top: ${getStatusBarHeight() + 28}px;
-    padding: 0 8px;
+    padding: 0px 16px;
 `;
 
 export const ListTitle = styled.Text`

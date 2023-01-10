@@ -9,12 +9,14 @@ import { Coffee, HouseLine } from "phosphor-react-native"
 import { Ordered } from "@myApp/screens/Ordered"
 import { Payment } from "@myApp/screens/Payment"
 import { Success } from "@myApp/screens/Success"
+import { useTheme } from "styled-components"
+
 
 
 function SideMenu(){
 
     const Drawer = createDrawerNavigator()
-
+    
     return(
         <Drawer.Navigator
             drawerContent={props => <CustomDrawer {...props}/> }
@@ -42,10 +44,11 @@ function SideMenu(){
 
 export function AppRoutes(){
 
+    const theme = useTheme();
     const Stack = createNativeStackNavigator<propsNavigationStack>()
 
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator screenOptions={{ headerShown: false, statusBarColor: theme.colors.purple }}>
             <Stack.Screen name="SideMenu" component={SideMenu}/>
             <Stack.Screen name="Checkout" component={Checkout}/>
             <Stack.Screen name="Payment" component={Payment}/>

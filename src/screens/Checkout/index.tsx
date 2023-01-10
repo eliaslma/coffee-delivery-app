@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FlatList } from "react-native";
 import { CoffeeSelected } from "@myApp/components/CoffeeSelected";
 import { CheckoutButton } from "@myApp/components/Buttons/CheckoutButton";
-import { getBottomSpace, isIphoneX } from "react-native-iphone-x-helper";
+import { getBottomSpace, isIphoneX, getStatusBarHeight } from "react-native-iphone-x-helper";
 import { CaretLeft } from "phosphor-react-native";
 import { 
     Container,
@@ -99,7 +99,7 @@ export function Checkout({navigation, route}){
 
     return (
         <Container>
-            <Header>
+            <Header style={ isIphoneX() ? {marginTop: getStatusBarHeight() + 16} : {marginTop: 16}}>
                 <BackButton onPress={() => navigation.goBack()}>
                     <CaretLeft size={24} weight="bold"/>
                 </BackButton>
