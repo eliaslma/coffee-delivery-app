@@ -27,6 +27,7 @@ import {
     SelectPaymentTitle,
     Footer
 }from './styles'
+import { useAuth } from "@myApp/hooks/auth";
 
 export interface DeliveryAddress {
     street?: string;
@@ -48,16 +49,17 @@ const schema = Yup.object().shape({
 
 export function Payment({navigation, route}){
 
-    const [paymentMethodSelected,setPaymentMethodSelect] = useState('Cartão de Crédito')
-    const [deliveryAddress, setDeliveryAddress ] = useState<DeliveryAddress>({})
+    const [paymentMethodSelected,setPaymentMethodSelect] = useState('Cartão de Crédito');
+    const [deliveryAddress, setDeliveryAddress ] = useState<DeliveryAddress>({});
     const [dataRead,setDataRead] = useState(false);
-    const coffeeList = route.params['data']
-    const totalCartPrice = route.params['totalCartPrice']
+    const coffeeList = route.params['data'];
+    const totalCartPrice = route.params['totalCartPrice'];
+    const { user } = useAuth();
     
     async function getDeliveryAddress(){
 
-        const dataKey = '@coffeedelivery:location'
-        const response = await AsyncStorage.getItem(dataKey)
+        const dataKey = `@coffeedelivery:location_user:${user.id}`;
+        const response = await AsyncStorage.getItem(dataKey);
 
         if(response !== null){
             let data = JSON.parse(response)
@@ -81,7 +83,7 @@ export function Payment({navigation, route}){
 
     async function handleConfirmOrder(data: DeliveryAddress){
 
-        navigation.navigate("Success", { data: data, payment: paymentMethodSelected})
+        navigation.navigate("Success", { data: data, payment: paymentMethodSelected});
 
         const ordered = {
             id: uuid.v4(),
@@ -98,7 +100,7 @@ export function Payment({navigation, route}){
         }
         
         try{
-            const dataKey = '@coffeedelivery:ordereds'
+            const dataKey = `@coffeedelivery:ordereds_user:${user.id}`;
             const response = await AsyncStorage.getItem(dataKey);
             const readData = response ? JSON.parse(response) : [];
 
@@ -107,7 +109,7 @@ export function Payment({navigation, route}){
                 ordered
             ]
 
-            await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted))
+            await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted));
             
 
         }catch(error){

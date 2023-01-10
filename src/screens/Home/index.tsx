@@ -50,7 +50,7 @@ export function Home(NavigationDrawer){
     const [location, setLocation] = useState('');
 
     async function getLocation(){
-        const dataKey = '@coffeedelivery:location'
+        const dataKey = `@coffeedelivery:location_user:${user.id}`
         const response = await AsyncStorage.getItem(dataKey)
         if(response !== null){
             const data = JSON.parse(response)
