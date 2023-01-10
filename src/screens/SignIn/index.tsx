@@ -3,6 +3,7 @@ import AppleIcon from '../../assets/apple-icon.svg';
 import GoogleIcon from '../../assets/google-icon.svg';
 import CoffeeDeliveryIcon from '../../assets/Logo.svg'
 import { useTheme } from "styled-components";
+import { Platform } from "react-native";
 
 
 import { RFValue } from "react-native-responsive-fontsize";
@@ -72,7 +73,7 @@ export function SignIn(){
             <Footer>
                 <FooterWrapper>
                     <SignInSocialButton title="Entrar com Google" svg={GoogleIcon} onPress={handleSignInWithGoogle}/>
-                    <SignInSocialButton title="Entrar com Apple" svg={AppleIcon} onPress={handleSignInWithApple}/>
+                    {Platform.OS === 'ios' && <SignInSocialButton title="Entrar com Apple" svg={AppleIcon} onPress={handleSignInWithApple}/>}
                 </FooterWrapper>
                 { isLoading && <ActivityIndicator color={theme.colors.purple_light} size="large" style={{marginTop: 16}}/>}
             </Footer>
