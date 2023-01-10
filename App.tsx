@@ -7,7 +7,7 @@ import 'intl/locale-data/jsonp/pt-BR';
 
 import { Loader } from '@myApp/components/Loader';
 import { Routes } from '@myApp/routes';
-import { AuthProvider } from '@myApp/hooks/Auth';
+import { AuthProvider, useAuth } from '@myApp/hooks/auth';
 
 import {
     Roboto_400Regular,
@@ -24,6 +24,8 @@ import {
 
 export default function App() {
 
+    const { userStorageLoading } = useAuth()
+
     const [fontsLoaded] = useFonts({
         Roboto_400Regular,
         Roboto_500Medium,
@@ -33,7 +35,7 @@ export default function App() {
         Baloo2_800ExtraBold
     });
 
-    if(!fontsLoaded){
+    if(!fontsLoaded || userStorageLoading){
         return <Loader/>
     }
     else{

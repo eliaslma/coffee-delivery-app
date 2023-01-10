@@ -20,6 +20,7 @@ interface AuthContextProps{
     signInWithGoogle(): Promise<void>;
     signInWithApple(): Promise<void>;
     signOut(): Promise<void>;
+    userStorageLoading: boolean;
 }
 
 type AuthResponseData = {
@@ -34,6 +35,7 @@ const AuthContext = createContext({} as AuthContextProps)
 function AuthProvider({ children } : AuthProviderProps){
 
     const [userInfos, setUserInfos] = useState<User>({} as User)
+    const [userStorageLoading,setUserStorageLoading] = useState(true);
     const userStorageKey = '@gofinances:user'
 
     async function signInWithGoogle(){
@@ -98,6 +100,7 @@ function AuthProvider({ children } : AuthProviderProps){
             const userDataFormatted = JSON.parse(userData) as User
             setUserInfos(userDataFormatted)
         }
+        setUserStorageLoading(false)
     }
 
     async function signOut(){
@@ -117,6 +120,8 @@ function AuthProvider({ children } : AuthProviderProps){
                 signInWithGoogle,
                 signInWithApple,
                 signOut,
+                userStorageLoading
+                
         }}>
             {children}
         </AuthContext.Provider>
