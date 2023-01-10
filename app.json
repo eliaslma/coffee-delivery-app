@@ -2,9 +2,22 @@
   "expo": {
     "name": "coffee-delivery-app",
     "slug": "coffee-delivery-app",
+    "scheme": "coffee-delivery-app",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "android": {
+      "package": "com.coffeedelivery"
+    },
+    "ios": {
+      "bundleIdentifier": "com.coffeedelivery"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "37e4ff5a-1903-439e-a634-88cefa83f51a"
+      }
+    },
+    "plugins": ["expo-apple-authentication"]
   }
 }
