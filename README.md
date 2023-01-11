@@ -24,11 +24,17 @@ Principais pacotes extra instalados:
 - [Styled Components](https://styled-components.com/)
 - [React Hook Form](https://react-hook-form.com/)
 - [React Navigation](https://reactnavigation.org/)
-- [Victory Native](https://formidable.com/open-source/victory/)
 - [Async Storage](https://react-native-async-storage.github.io/async-storage/)
 - [Auth Session](https://docs.expo.dev/versions/latest/sdk/auth-session/)
 - [Lootie](https://www.npmjs.com/package/lottie-react-native)
 - [Axios](https://axios-http.com/ptbr/docs/intro)
+
+## ⚙️ Features
+
+* Autenticação de usuário
+* Captura de localização por CEP (Consumo de API: [ViaCEP](https://viacep.com.br/))
+* Criar novos pedidos
+* Histórico de pedidos 
 
 ## [](https://github.com/eliaslma/coffee-delivery-app) 🚀 Como executar o projeto
 
