@@ -1,6 +1,5 @@
 import styled from "styled-components/native";
 import { GestureHandlerRootView, BorderlessButton } from "react-native-gesture-handler";
-import { getStatusBarHeight } from "react-native-iphone-x-helper";
 import { RFValue } from "react-native-responsive-fontsize";
 
 export const Container = styled(GestureHandlerRootView)`
@@ -12,8 +11,7 @@ export const Header = styled.View`
     flex-direction: row;
     align-items: center;
     width: 100%;
-    margin-top: ${getStatusBarHeight() + 28}px;
-    padding: 0 8px;
+    padding: 0 16px;
 `;
 
 export const Title = styled.Text`

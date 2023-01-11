@@ -6,14 +6,16 @@ import { CaretLeft } from "phosphor-react-native";
 import { OrderCard } from "@myApp/components/OrderCard";
 import { Container, Header, Title, BackButton, CardsContain } from "./styles";
 import { useFocusEffect } from "@react-navigation/native";
-import { getBottomSpace, isIphoneX } from "react-native-iphone-x-helper";
+import { getBottomSpace, isIphoneX, getStatusBarHeight } from "react-native-iphone-x-helper";
+import { useAuth } from "@myApp/hooks/Auth";
 
 export function Ordered({navigation}){
 
     const [wishList, setMyWishList] = useState([])
+    const { user } = useAuth();
 
     async function getWishList(){
-        const dataKey = '@coffeedelivery:ordereds'
+        const dataKey = `@coffeedelivery:ordereds_user:${user.id}`;
         const response = await AsyncStorage.getItem(dataKey);
         const dataFormatted = response ? JSON.parse(response) : null;
         setMyWishList(dataFormatted)
@@ -29,7 +31,7 @@ export function Ordered({navigation}){
 
     return (
         <Container>
-            <Header>
+            <Header style={ isIphoneX() ? {marginTop: getStatusBarHeight() + 16} : { marginTop: 16}}>
                 <BackButton onPress={() => {navigation.goBack()}}>
                     <CaretLeft size={24} weight="bold"/>
                 </BackButton>

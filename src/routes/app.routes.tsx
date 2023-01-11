@@ -1,5 +1,4 @@
 import React from "react"
-import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { Home } from "@myApp/screens/Home"
 import { Checkout } from "@myApp/screens/Checkout"
@@ -10,12 +9,14 @@ import { Coffee, HouseLine } from "phosphor-react-native"
 import { Ordered } from "@myApp/screens/Ordered"
 import { Payment } from "@myApp/screens/Payment"
 import { Success } from "@myApp/screens/Success"
+import { useTheme } from "styled-components"
+
 
 
 function SideMenu(){
 
     const Drawer = createDrawerNavigator()
-
+    
     return(
         <Drawer.Navigator
             drawerContent={props => <CustomDrawer {...props}/> }
@@ -43,16 +44,15 @@ function SideMenu(){
 
 export function AppRoutes(){
 
+    const theme = useTheme();
     const Stack = createNativeStackNavigator<propsNavigationStack>()
 
     return (
-        <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="SideMenu" component={SideMenu}/>
-                <Stack.Screen name="Checkout" component={Checkout}/>
-                <Stack.Screen name="Payment" component={Payment}/>
-                <Stack.Screen name="Success" component={Success} options={{ gestureEnabled: false}}/>
-            </Stack.Navigator>
-        </NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false, statusBarColor: theme.colors.purple }}>
+            <Stack.Screen name="SideMenu" component={SideMenu}/>
+            <Stack.Screen name="Checkout" component={Checkout}/>
+            <Stack.Screen name="Payment" component={Payment}/>
+            <Stack.Screen name="Success" component={Success} options={{ gestureEnabled: false}}/>
+        </Stack.Navigator>
     )
 }

@@ -2,15 +2,17 @@ import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme from '@myApp/global/styles/theme';
 import { useFonts } from 'expo-font';
-import { Loader } from '@myApp/components/Loader';
-import { AppRoutes } from '@myApp/routes/app.routes';
-
 import 'intl';
 import 'intl/locale-data/jsonp/pt-BR';
 
+import { Loader } from '@myApp/components/Loader';
+import { Routes } from '@myApp/routes';
+import { AuthProvider, useAuth } from '@myApp/hooks/Auth';
+
 import {
-  Roboto_400Regular,
-  Roboto_700Bold,
+    Roboto_400Regular,
+    Roboto_500Medium,
+    Roboto_700Bold,
 } from '@expo-google-fonts/roboto'
 
 import {
@@ -19,29 +21,32 @@ import {
     Baloo2_800ExtraBold
 } from '@expo-google-fonts/baloo-2'
 
+
 export default function App() {
 
-  const [fontsLoaded] = useFonts({
-    Roboto_400Regular,
-    Roboto_700Bold,
-    Baloo2_400Regular,
-    Baloo2_700Bold,
-    Baloo2_800ExtraBold
-  });
+    const { userStorageLoading } = useAuth()
 
-  if(!fontsLoaded){
-    return <Loader/>
-  }
-  else{
+    const [fontsLoaded] = useFonts({
+        Roboto_400Regular,
+        Roboto_500Medium,
+        Roboto_700Bold,
+        Baloo2_400Regular,
+        Baloo2_700Bold,
+        Baloo2_800ExtraBold
+    });
 
-  return (
-    <ThemeProvider theme={theme}>
-      <AppRoutes/>
-    </ThemeProvider>
-  );
-
-  }
-
+    if(!fontsLoaded || userStorageLoading){
+        return <Loader/>
+    }
+    else{
+        return (
+            <ThemeProvider theme={theme}>
+                <AuthProvider>
+                    <Routes/>
+                </AuthProvider>
+            </ThemeProvider>
+        );
+    }
 }
 
 

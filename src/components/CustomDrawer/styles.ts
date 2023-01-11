@@ -17,7 +17,6 @@ export const UserWrapper = styled.View`
     align-items: center;
     width: 100%;
     padding: 16px 16px;
-    margin-top: ${getStatusBarHeight() + 12}px;
 `;
 
 export const Photo = styled.Image`

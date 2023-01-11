@@ -11,6 +11,7 @@ import { ActivityIndicator } from "react-native";
 import { InputForm } from "../LocationForm/InputForm";
 import { GetLocationButton } from "../LocationForm/GetLocationButton";
 import { Container, Modal, Header, InfoContainer, Infos, Title, Subtitle, CloseButton } from "./styles";
+import { useAuth } from "@myApp/hooks/Auth";
 
 
 
@@ -36,13 +37,14 @@ export function LocationModal({ handleCloseModal, handleUpdateLocation }){
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
       });
+    const { user } = useAuth();
 
       async function handleGetLocation(data: FormData){
 
         setLoaderActive(true)
 
         try{
-            const dataKey = '@coffeedelivery:location';
+            const dataKey = `@coffeedelivery:location_user:${user.id}`;
             const response = await api.get(`${data.zipcode}/json`);
 
             if(response.data['erro']) {

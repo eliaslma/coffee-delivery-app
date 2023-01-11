@@ -1,7 +1,7 @@
 import { View } from 'react-native';
 import { DrawerContentScrollView, DrawerItemList,} from '@react-navigation/drawer';
 import { SignOut } from 'phosphor-react-native';
-import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
+import { getBottomSpace, getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 
 import { 
     Container, 
@@ -15,16 +15,20 @@ import {
     Icon, 
     OutTitle 
 } from './styles';
+import { useAuth } from '@myApp/hooks/Auth';
 
 export function CustomDrawer(props) {
+
+    const { user, signOut } = useAuth()
+
     return (
             <Container>
                 <Header>
-                    <UserWrapper>
-                        <Photo source={{ uri: 'https://avatars.githubusercontent.com/u/70176310?v=4'}}/>
+                    <UserWrapper  style={ isIphoneX() ? {marginTop: getStatusBarHeight() + 16} : { marginTop: 16}}>
+                        <Photo source={{ uri: user.picture}}/>
                         <User>
                             <UserGreeting>Olá,</UserGreeting>
-                            <UserName>Elias</UserName>
+                            <UserName>{user.name}</UserName>
                         </User>
                     </UserWrapper>
                 </Header>
@@ -33,8 +37,8 @@ export function CustomDrawer(props) {
                         <DrawerItemList {...props}/>
                     </View>
                 </DrawerContentScrollView>
-                <SignOutWrapper style={ isIphoneX ? { paddingBottom: getStatusBarHeight()} : {paddingBottom: 16}}>
-                    <Icon>
+                <SignOutWrapper style={ isIphoneX() ? { paddingBottom: getBottomSpace()} : {paddingBottom: 16}}>
+                    <Icon onPress={signOut}>
                         <SignOut size={28} weight="bold" color={'#8047F8'}/>
                         <OutTitle>Sair</OutTitle>
                     </Icon>
