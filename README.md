@@ -22,6 +22,7 @@ Este projeto foi desenvolvido com as seguintes tecnologias:
 Principais pacotes extra instalados:
 
 - [Styled Components](https://styled-components.com/)
+- [React Native Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/)
 - [React Hook Form](https://react-hook-form.com/)
 - [React Navigation](https://reactnavigation.org/)
 - [Async Storage](https://react-native-async-storage.github.io/async-storage/)
